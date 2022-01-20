@@ -20,5 +20,5 @@ It's super convenient, and I definitely find it to be easier than git commands
 Group info and documents are in the Confluence space:     
 https://rjns-knights.atlassian.net/wiki/spaces/CGP/overview     
      
-Project status and features/bugs/etc are in the JIRA:   
-https://rjns-knights.atlassian.net/jira/   
+Project status and features/bugs/etc are in the Trello board:   
+https://trello.com/b/Wl5XiZje/helicopter-simulation-game 
