@@ -17,7 +17,8 @@ It's super convenient, and I definitely find it to be easier than git commands
 * Always check for bugs and make sure your code is stable before pushing to GitHub
 
 ## Project Info
-Group info and documents are in the Confluence space:     https://rjns-knights.atlassian.net/wiki/spaces/CGP/overview   
-
+Group info and documents are in the Confluence space:     
+https://rjns-knights.atlassian.net/wiki/spaces/CGP/overview     
+     
 Project status and features/bugs/etc are in the JIRA:   
 https://rjns-knights.atlassian.net/jira/   
