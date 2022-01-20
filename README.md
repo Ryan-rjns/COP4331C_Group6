@@ -1,5 +1,3 @@
-(I would reccomend using GitHub Desktop, it's very convenient:  )
-
 ## Table of contents
 * [Initial Setup](#initial-setup)
 * [Reminders](#reminders)
