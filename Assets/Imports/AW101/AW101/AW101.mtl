@@ -1,0 +1,30 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 20.06.2020 19:38:16
+
+newmtl AW101_AW101_sha
+	Ns 43.2193
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.5020 0.5020 0.5020
+	Ks 0.2000 0.2000 0.2000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\user\Desktop\AW101\textures\AW101.png
+	map_Kd C:\Users\user\Desktop\AW101\textures\AW101.png
+
+newmtl AW101_AW101_windows_sha
+	Ns 43.2193
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.4980 0.4980 0.4980
+	Ks 0.2000 0.2000 0.2000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\user\Desktop\AW101\textures\AW101.png
+	map_Kd C:\Users\user\Desktop\AW101\textures\AW101.png
