@@ -10,7 +10,7 @@ public class ZPU : MonoBehaviour{
     private GameObject Helicopter = GameObject.FindGameObjectsWithTag("Player");
     private bool targetLocked;
     //This is the top of the ZPU turret, it consisted of a ton of objects, so I added them to an array
-    public static GameObject[] turretTop = GameObject.FindGameObjectsWithTag("zputop");
+    //public static GameObject[] turretTop = GameObject.FindGameObjectsWithTag("zputop");
     int turretToplen = turretTop.Length;
 
 
