@@ -11,7 +11,7 @@ public class ZPU : MonoBehaviour{
     private bool targetLocked;
     //This is the top of the ZPU turret, it consisted of a ton of objects, so I added them to an array
     //public static GameObject[] turretTop = GameObject.FindGameObjectsWithTag("zputop");
-    int turretToplen = turretTop.Length;
+    //int turretToplen = turretTop.Length;
 
 
 
