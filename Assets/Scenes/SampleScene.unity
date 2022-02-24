@@ -251,7 +251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -285,6 +285,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Backrotor
       objectReference: {fileID: 0}
+    - target: {fileID: -8544517646759886219, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: -676322198954566554, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -303,11 +307,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
       propertyPath: m_Name
-      value: Body
+      value: Helicopter Body
       objectReference: {fileID: 0}
     - target: {fileID: 8279273907535743685, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
       propertyPath: m_Name
       value: Propeller
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279273907535743685, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
@@ -416,7 +424,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   m_Layer: 0
-  m_Name: CamTP
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -510,6 +518,108 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.051670633, y: 0.05799805, z: 0.2049968}
   m_Center: {x: 0, y: 9.313225e-10, z: 0}
+--- !u!1001 &1246744438
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.96
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.91
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.54
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9487073
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.3161559
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 36.861
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8544517646759886219, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_Name
+      value: Backrotor
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_Name
+      value: Enemy Helicopter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279273907535743685, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+      propertyPath: m_Name
+      value: Propeller
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+--- !u!1 &1468849750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 38d0ae4ad1b17d842b85b40d19b6fc19, type: 3}
+  m_PrefabInstance: {fileID: 1246744438}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1468849754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468849750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d45a1a6b7cf63f40b54dc6225496720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &1468849755
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468849750}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &2096130320
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,10 +629,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2096130322}
-  - component: {fileID: 2096130321}
   - component: {fileID: 2096130323}
+  - component: {fileID: 2096130321}
   m_Layer: 0
-  m_Name: Helicopter
+  m_Name: Player Helicopter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,7 +647,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2096130320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 113e48693fa3ac64e9dc598af6fc9cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: f4b7dd66effd44741b8b3e0a9f9eecac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2096130322
@@ -548,7 +658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096130320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: -1.129}
+  m_LocalPosition: {x: 0, y: 2.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1207347604}
@@ -567,10 +677,10 @@ Rigidbody:
   m_Mass: 500
   m_Drag: 1
   m_AngularDrag: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1001 &6176594961916606193
 PrefabInstance:
