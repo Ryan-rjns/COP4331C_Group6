@@ -95,6 +95,7 @@ public class Player : Helicopter
             cam2.transform.position = transform.position + (Vector3.up * cam2Dist);
             cam2Dist += -1 * Input.GetAxis("Mouse ScrollWheel");
             cam2Dist = Mathf.Clamp(cam2Dist, CAM2_MIN_DIST, CAM2_MAX_DIST);
+            cam2.transform.LookAt(transform.position);
         }
     }
 }
