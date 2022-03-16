@@ -42,7 +42,8 @@ public class Player : Helicopter
         // Accept movement input
         FlyUp(Input.GetAxis("Jump"));
         FlyForward(Input.GetAxis("Vertical"));
-        FlyRight(Input.GetAxis("Strafe"));
+        FlyRight(Input.GetAxis("Horizontal"));
+        FlyPivot(Input.GetAxis("Strafe"));
 
         if (cam != null)
         {

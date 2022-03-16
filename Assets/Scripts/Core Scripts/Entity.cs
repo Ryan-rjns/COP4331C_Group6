@@ -124,7 +124,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     // The turning (yaw) speed (in deg/s) of this Entity
-    float _turnSpeed = 2.0f;
+    float _turnSpeed = 20.0f;
     public float TurnSpeed
     {
         get => _turnSpeed;
@@ -152,8 +152,11 @@ public abstract class Entity : MonoBehaviour
         return Vector3.ClampMagnitude(percentage, 1.0f) * MaxSpeed;
     }
     // Returns true if this entity is on the ground, false if it is in the air, and null if this entity has no colliders.
-    public bool? IsGrounded()
+    // tolerance specifies how close the ground must be. If tolerance <= 0, this fails and returns null.
+    public bool? IsGrounded(float tolerance = GROUND_TOLERANCE)
     {
+        if (tolerance <= 0) return null;
+
         // Try to find the bottom of the entity's collision
         Vector3 bottom;
 
@@ -166,7 +169,7 @@ public abstract class Entity : MonoBehaviour
         // Otherwise, no bottom was found, then this entity has no collider and this function fails
         else return null;
 
-        var resGround = StarLib.RaycastSearch(bottom + (Vector3.up * GROUND_TOLERANCE), Vector3.down, GROUND_TOLERANCE * 2,
+        var resGround = StarLib.RaycastSearch(bottom + (Vector3.up * tolerance), Vector3.down, tolerance * 2,
             (hit, hitObject) =>
             {
                 // Try to determine if this GameObject is an Entity

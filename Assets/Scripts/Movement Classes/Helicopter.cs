@@ -20,9 +20,12 @@ public abstract class Helicopter : Unit
     const float MAX_ROLL = 20.0f;
     // The time (in seconds) it takes the helicopter to go from 0 to max pitch/roll
     const float TILT_TIME = 1.0f;
+    // How far away from the ground the helicopter has to be before it is considered "flying"
+    const float GROUND_DISTANCE = 0.30f;
 
 
     bool grounded;
+    bool flying;
     Vector3 InputVelocity = Vector3.zero;
     // 
     float propellerSpeed = 0;
@@ -34,6 +37,8 @@ public abstract class Helicopter : Unit
         // The default speed and accelration for a helicopter:
         MaxSpeed = 3.0f;
         AccelTime = 3.0f;
+        // For example: move forwards at max speed:
+        TargetVelocity = ScaleVelocity(Vector3.forward);
     }
 
     protected override void Update()
@@ -44,15 +49,20 @@ public abstract class Helicopter : Unit
 
         // Determine if the helicopter is grounded:
         grounded = IsGrounded() ?? false;
+        // Determine if the helicopter is flying:
+        flying = !IsGrounded(GROUND_DISTANCE) ?? false;
+
         // Move the helicopter towards the input directions (magnitude is automatically clamped to 1)
-        TargetVelocity = InputVelocity;
+        // Target velocity is relative to the helicopter's yaw!
+        // (If the helicopter turns right, "forwards" is now to the right)
+        TargetVelocity = Quaternion.AngleAxis(transform.rotation.eulerAngles.y,Vector3.up) * InputVelocity;
 
 
         // >>> Visual Animations:
 
         // Accelerate the propeller and backrotor to reach their target speeds
-        float propellerTarget = grounded && TargetVelocity.y <= 0 ? 0 : PROPELLER_SPEED;
-        float backrotorTarget = grounded && TargetVelocity.y <= 0 ? 0 : BACKROTOR_SPEED;
+        float propellerTarget = grounded && InputVelocity.y <= 0 ? 0 : PROPELLER_SPEED;
+        float backrotorTarget = grounded && InputVelocity.y <= 0 ? 0 : BACKROTOR_SPEED;
         propellerSpeed = StarLib.PID(propellerSpeed.ToVecX(), propellerTarget.ToVecX(), PROPELLER_SPEED / PROPELLER_ACCEL_TIME).x;
         backrotorSpeed = StarLib.PID(backrotorSpeed.ToVecY(), backrotorTarget.ToVecY(), BACKROTOR_SPEED / PROPELLER_ACCEL_TIME).y;
 
@@ -68,24 +78,22 @@ public abstract class Helicopter : Unit
 
         // Pitch the helicopter when it is moving longitudinally and roll it when it is moving laterally (unless grounded
         Vector3 currRot = transform.rotation.eulerAngles.Euler180();
-        float pitchTarget = grounded ? 0 : MAX_PITCH * TargetVelocity.normalized.z;
-        float rollTarget = grounded ? 0 : MAX_ROLL * TargetVelocity.normalized.x * -1;
+        float pitchTarget = grounded ? 0 : MAX_PITCH * InputVelocity.normalized.z;
+        float rollTarget = grounded ? 0 : MAX_ROLL * InputVelocity.normalized.x * -1;
         currRot.x = StarLib.PID(currRot.x.ToVecX(), pitchTarget.ToVecX(), MAX_PITCH / TILT_TIME).x;
         currRot.z = StarLib.PID(currRot.z.ToVecZ(), rollTarget.ToVecZ(), MAX_ROLL / TILT_TIME).z;
         transform.rotation = Quaternion.Euler(currRot);
         EntityDebug($"pitchTarget={pitchTarget}, rollTarget={rollTarget}, currPitch={currRot.x},currRoll={currRot.z},currYaw={currRot.y}");
     }
 
-
-
     // Move the helicopter vertically
     // speed - how fast the helicopter will move up (positive) or down (negative)
     // exact - if false, speed is a percentage of MaxSpeed. If true, speed is an exact number (m/s)
     protected virtual void FlyUp(float speed, bool exact = false)
     {
-        // When on the ground, the helicopter can only fly up
-        if (grounded && speed <= 0) return;
-        if (!exact) speed = ScaleVelocity(speed);
+        // When fully hgrounded, the helicopter can only fly up
+        if (grounded && speed <= 0) speed = 0;
+        else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.y = speed;
     }
 
@@ -94,9 +102,9 @@ public abstract class Helicopter : Unit
     // exact - if false, speed is a percentage of MaxSpeed. If true, speed is an exact number (m/s)
     protected virtual void FlyForward(float speed, bool exact = false)
     {
-        // When on the ground, the helicopter can only fly up
-        if (grounded) return;
-        if (!exact) speed = ScaleVelocity(speed);
+        // When close to the ground, the helicopter can only fly up and down
+        if (!flying) speed = 0;
+        else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.z = speed;
     }
 
@@ -105,9 +113,9 @@ public abstract class Helicopter : Unit
     // exact - if false, speed is a percentage of MaxSpeed. If true, speed is an exact number (m/s)
     protected virtual void FlyRight(float speed, bool exact = false)
     {
-        // When on the ground, the helicopter can only fly up
-        if (grounded) return;
-        if (!exact) speed = ScaleVelocity(speed);
+        // When close to the ground, the helicopter can only fly up and down
+        if (!flying) speed = 0;
+        else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.x = speed;
     }
 
@@ -116,9 +124,9 @@ public abstract class Helicopter : Unit
     // exact - if false, speed is a percentage of MaxSpeed. If true, speed is an exact number (m/s)
     protected virtual void FlyPivot(float speed, bool exact = false)
     {
-        // When on the ground, the helicopter can only fly up
-        if (grounded) return;
-        if (!exact) speed = ScaleVelocity(speed);
-        // TODO: Implement Pivot
+        // When close to the ground, the helicopter can only fly up and down
+        if (!flying) speed = 0;
+        else if (!exact) speed = Mathf.Clamp(speed, -1.0f, 1.0f) * TurnSpeed;
+        transform.rotation *= Quaternion.AngleAxis(speed * Time.deltaTime,Vector3.up);
     }
 }

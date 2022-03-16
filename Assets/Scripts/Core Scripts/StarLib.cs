@@ -151,3 +151,66 @@ public static class StarLib
         System.Func<RaycastHit, GameObject, bool> filter = null, bool searchMultiple = false, bool? parentsWhitelist = null)
         => RaycastSearch(origin, (destination - origin).normalized, (destination - origin).magnitude, filter, searchMultiple, parentsWhitelist);
 }
+
+
+
+// A logic gate that can be applied to a list of booleans
+public enum LogicGate
+{
+    AND,
+    OR,
+    NAND,
+    NOR
+}
+public static class LogicGateExtensions
+{
+    public static bool Apply(this LogicGate gate, List<bool> inputs)
+    {
+        foreach (bool input in inputs)
+        {
+            if (gate == LogicGate.AND && !input) return false;
+            if (gate == LogicGate.NAND && !input) return true;
+            if (gate == LogicGate.OR && input) return true;
+            if (gate == LogicGate.NOR && input) return false;
+        }
+        return gate == LogicGate.AND || gate == LogicGate.NOR;
+    }
+}
+
+// A Comparison that can be applied to two IComparables
+public enum Comparison
+{
+    
+    EQ, // Equal
+    LT, // Less Than
+    GT, // Greater Than
+    NEQ, // Not Equal
+    LTEQ, // Less Than or Equal
+    GTEQ, // Greater Than or Equal
+}
+public static class ComparisonExtensions
+{
+    public static bool Apply(this Comparison c, IComparable a, IComparable b)
+    {
+        if (a == null || b == null) return false;
+        if (c == Comparison.EQ) return a.CompareTo(b) == 0;
+        if (c == Comparison.LT) return a.CompareTo(b) < 0;
+        if (c == Comparison.GT) return a.CompareTo(b) > 0;
+        if (c == Comparison.NEQ) return a.CompareTo(b) != 0;
+        if (c == Comparison.LTEQ) return a.CompareTo(b) <= 0;
+        if (c == Comparison.GTEQ) return a.CompareTo(b) >= 0;
+        // This point should never be reached
+        return false;
+    }
+    public static string Display(this Comparison c)
+    {
+        if (c == Comparison.EQ) return "=";
+        if (c == Comparison.LT) return "<";
+        if (c == Comparison.GT) return ">";
+        if (c == Comparison.NEQ) return "!=";
+        if (c == Comparison.LTEQ) return "<=";
+        if (c == Comparison.GTEQ) return ">=";
+        // This point should never be reached
+        return "???";
+    }
+}
