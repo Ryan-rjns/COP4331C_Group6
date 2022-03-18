@@ -9,7 +9,7 @@ public class Player : Helicopter
     public const float CAM1_MAX_DIST = 5.0f;
     public const float CAM1_MIN_DIST = 2.0f;
     public const float CAM2_MAX_DIST = 6.0f;
-    public const float CAM2_MIN_DIST = 3.0f;
+    public const float CAM2_MIN_DIST = 2.0f;
 
     // If an object is blocking the camera, this is how far (in meters) the camera has to be in front of that object
     public const float CAM_BLOCKING_TOLERANCE = 0.05f;
@@ -96,6 +96,7 @@ public class Player : Helicopter
             cam2Dist += -1 * Input.GetAxis("Mouse ScrollWheel");
             cam2Dist = Mathf.Clamp(cam2Dist, CAM2_MIN_DIST, CAM2_MAX_DIST);
             cam2.transform.LookAt(transform.position);
+            cam2.transform.rotation = Quaternion.Euler(cam2.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, cam2.transform.rotation.eulerAngles.x);
         }
     }
 }

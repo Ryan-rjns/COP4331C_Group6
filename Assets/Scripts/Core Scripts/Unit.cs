@@ -104,5 +104,8 @@ public abstract class Unit : Entity
         Destroy(this);
     }
     // Child classes can override this and use it to spawn in a seperate, non-unit death animation.
-    public virtual void DeathAnimation() { }
+    public virtual void DeathAnimation() 
+    { 
+        // TODO: Explosion here
+    }
 }
