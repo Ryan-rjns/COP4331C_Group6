@@ -46,14 +46,28 @@ public class Player : Helicopter
     protected override void Update()
     {
         base.Update();
-        
+
+        // Debug keys:
+        if(Input.GetKeyUp(KeyCode.Z))
+        {
+            GameManager.Win();
+        }
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            GameManager.Loose();
+        }
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            GameManager.PauseMenu();
+        }
+
         // Accept movement input
         FlyUp(Input.GetAxis("Jump"));
         FlyForward(Input.GetAxis("Vertical"));
         FlyRight(Input.GetAxis("Horizontal"));
         FlyPivot(Input.GetAxis("Strafe"));
 
-        if(Input.GetKeyUp(KeyCode.Tab)) {
+        if (Input.GetKeyUp(KeyCode.Tab)) {
             Debug.Log(currentCam);
             if(currentCam == 1) {
                 cam1.enabled = false;

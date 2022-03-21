@@ -83,7 +83,6 @@ public abstract class Helicopter : Unit
         currRot.x = StarLib.PID(currRot.x.ToVecX(), pitchTarget.ToVecX(), MAX_PITCH / TILT_TIME).x;
         currRot.z = StarLib.PID(currRot.z.ToVecZ(), rollTarget.ToVecZ(), MAX_ROLL / TILT_TIME).z;
         transform.rotation = Quaternion.Euler(currRot);
-        EntityDebug($"pitchTarget={pitchTarget}, rollTarget={rollTarget}, currPitch={currRot.x},currRoll={currRot.z},currYaw={currRot.y}");
     }
 
     // Move the helicopter vertically
