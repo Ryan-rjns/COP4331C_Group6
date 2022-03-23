@@ -54,7 +54,7 @@ public class Player : Helicopter
         }
         if (Input.GetKeyUp(KeyCode.X))
         {
-            GameManager.Loose();
+            GameManager.Lose();
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
