@@ -204,15 +204,38 @@ public class LogicFlag : Flag
 
 // A Flag is a boolean WatchVar that is the basis for objective tasks
 // Flags also contain cosmetic information on how the task should be displayed to the screen
-public abstract class Flag : WatchVar<bool> 
+public class Flag : WatchVar<bool> 
 {
+    public Flag()
+    {
+        AddAction(EnforceLock);
+    }
+
     public string Name { get; set; } = "NoName";
 
-    public string Display()
-    {
-        return $"{Name} {GetProgressIndicator()}";
-    }
+    public string Display() => $"{Name} {GetProgressIndicator()}";
     public virtual string GetProgressIndicator() => "(X)";
+
+
+    public bool? Locked { get; private set; }
+
+    // Adds a lock to this flag that prevents it from leaving the True or False state (returns this)
+    public Flag Lock(bool targetState)
+    {
+        Locked = targetState;
+        return this;
+    }
+    // Removes the lock from this flag (returns this)
+    public Flag Unlock()
+    {
+        Locked = null;
+        return this;
+    }
+    private void EnforceLock(WatchVar<bool> ignored)
+    {
+        if (Locked == null || Value == Locked.Value) return;
+        Value = Locked.Value;
+    }
 }
 
 // A WatchVar can replace any variable, and tracks whenever that variable changes

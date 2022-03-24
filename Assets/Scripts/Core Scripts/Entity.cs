@@ -159,7 +159,6 @@ public abstract class Entity : MonoBehaviour
 
         // Try to find the bottom of the entity's collision
         Vector3 bottom;
-
         var resBottom = StarLib.RaycastSearch(transform.position + (Vector3.down * MAX_ENTITY_RADIUS), Vector3.up, MAX_ENTITY_RADIUS * 2,
             (hit, hitObject) => hitObject.Equals(this.gameObject)
             , false/*Stop at the first result*/, true/*Whitelist: Return any parents that match the filter*/);
@@ -172,6 +171,9 @@ public abstract class Entity : MonoBehaviour
         var resGround = StarLib.RaycastSearch(bottom + (Vector3.up * tolerance), Vector3.down, tolerance * 2,
             (hit, hitObject) =>
             {
+                // If the hit is on a trigger volume, don't count it (blacklist=true)
+                if (hit.collider.isTrigger) return true;
+
                 // Try to determine if this GameObject is an Entity
                 Entity hitEntity;
                 hitObject.TryGetComponent(out hitEntity);

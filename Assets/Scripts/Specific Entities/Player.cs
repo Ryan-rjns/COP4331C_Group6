@@ -27,7 +27,9 @@ public class Player : Helicopter
     float cam1Dist = 1.0f;
     float cam2Dist = 4.0f;
     // A scalar for how fast the camera moves relative to the player's mouse
-    float camSpeed = 4.0f;
+    float camSpeed = 2000.0f;
+    // A scalar for how fast the camera zooms in and out
+    float camZoomSpeed = 1000.0f;
 
     protected override void Start()
     {
@@ -58,7 +60,7 @@ public class Player : Helicopter
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
-            GameManager.PauseMenu();
+            GameManager.Pause();
         }
 
         // Accept movement input
@@ -87,8 +89,8 @@ public class Player : Helicopter
         if (currentCam == 1)
         {
             // Accept camera input
-            camRot += camSpeed * new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
-            cam1Dist += -1 * Input.GetAxis("Mouse ScrollWheel");
+            camRot += new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * camSpeed * Time.deltaTime;
+            cam1Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
             // Constrain camera input
             camRot = camRot.ClampX(-80.0f, 80.0f);
             cam1Dist = Mathf.Clamp(cam1Dist, CAM1_MIN_DIST, CAM1_MAX_DIST);
@@ -107,7 +109,7 @@ public class Player : Helicopter
         }
         else if(currentCam == 2) {
             cam2.transform.position = transform.position + (Vector3.up * cam2Dist);
-            cam2Dist += -1 * Input.GetAxis("Mouse ScrollWheel");
+            cam2Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
             cam2Dist = Mathf.Clamp(cam2Dist, CAM2_MIN_DIST, CAM2_MAX_DIST);
             cam2.transform.LookAt(transform.position);
             cam2.transform.rotation = Quaternion.Euler(cam2.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, cam2.transform.rotation.eulerAngles.x);
