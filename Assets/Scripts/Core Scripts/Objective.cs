@@ -9,11 +9,23 @@ using UnityEngine;
 // If the player wins the level, they can recieve extra rewards based on the BonusTasks
 public class Objective
 {
+    private bool enabled = false;
     public string Name { get; set; }
     public string Description { get; set; }
-    private List<Flag> winTasks;
-    private List<Flag> looseTasks;
-    private List<Flag> bonusTasks;
+    private List<Flag> winTasks = new List<Flag>();
+    private List<Flag> looseTasks = new List<Flag>();
+    private List<Flag> bonusTasks = new List<Flag>();
+    private List<Flag> AllTasks
+    {
+        get
+        {
+            List<Flag> flags = new List<Flag>();
+            flags.AddRange(winTasks);
+            flags.AddRange(looseTasks);
+            flags.AddRange(bonusTasks);
+            return flags;
+        }
+    }
 
     public Objective(string name, string description)
     {
@@ -21,21 +33,51 @@ public class Objective
         Description = description;
     }
 
+    public Objective Enable()
+    {
+        Debug.Log($"Objective {Name} is enabled");
+        // Enable win/loose updates
+        enabled = true;
+        // Add CheckTasks to all of the flags
+        foreach (Flag f in AllTasks)
+        {
+            f.AddAction(CheckTasks);
+        }
+        return this;
+    }
+    public Objective Disable()
+    {
+        Debug.Log($"Objective {Name} is disabled");
+        // Prevent win/loose updates
+        enabled = false;
+        // Remove CheckTasks from all of the flags
+        foreach (Flag f in AllTasks)
+        {
+            f.RemoveAction(CheckTasks);
+        }
+        return this;
+    }
+
     // Adds the given flag as a task for this objective
     // isWinTask==True:  This is a task that is required to win
     // isWinTask==False: If this flag brecomes true, the player immediately looses
     // isWinTask==null:  This is a bonus task and does not count towards winning or loosing
-    public Objective CreateTask(Flag task, bool? isWinTask)
+    public Objective Task(Flag task, bool? isWinTask = true)
     {
         if (task == null) return this;
-        task.AddAction(CheckTasks);
         List<Flag> taskList = isWinTask == true ? winTasks : (isWinTask == false ? looseTasks : bonusTasks);
         taskList.Add(task);
+        if(enabled) task.AddAction(CheckTasks);
+        Debug.Log($"Objective {Name} added a new task {task}");
         return this;
     }
 
     private void CheckTasks(WatchVar<bool> source = null)
     {
+        Flag sourceFlag = source as Flag;
+        if (sourceFlag != null) Debug.Log($"Objective {Name} checking updated task {sourceFlag} with value {sourceFlag.Value}");
+
+        if (!enabled) return;
         // If there is at least one wintask, then the player has the opportunity to win
         bool win = winTasks.Count > 0;
         foreach (Flag wt in winTasks)
@@ -51,7 +93,8 @@ public class Objective
         // If the player won, don't bother checking the loose conditions (can't win and loose at the same time)
         if (win)
         {
-            Win();
+            Debug.Log($"Objective {Name}: Player Wins :)");
+            GameManager.Win();
             return;
         }
 
@@ -61,21 +104,13 @@ public class Objective
             // If ANY looseTask is ever true, then the player immediately looses
             if(lt.Value)
             {
-                Loose();
+                Debug.Log($"Objective {Name}: Player Looses :(");
+                GameManager.Lose();
                 return;
             }
         }
     }
 
-    private void Win()
-    {
-        // TODO
-    }
-
-    private void Loose()
-    {
-        // TODO
-    }
 }
 
 // A LimitFlag is a Flag that tracks a target WatchVar<T> and checks it against a given limit using a Comparison
@@ -215,7 +250,7 @@ public class Flag : WatchVar<bool>
 
     public string Display() => $"{Name} {GetProgressIndicator()}";
     public virtual string GetProgressIndicator() => "(X)";
-
+    public override string ToString() => Name;
 
     public bool? Locked { get; private set; }
 
@@ -291,9 +326,18 @@ public class ActionBundle<T>
     public virtual void CallBundle(T value)
     {
         if (bundle == null) return;
-        foreach (var action in bundle)
+        // If one of the bundle's actions adds or removes actions from this bundle, the foreach loop will crash
+        // If this happens, catch the exception move on
+        try
         {
-            action(value);
+            foreach (var action in bundle)
+            {
+                action(value);
+            }
+        } 
+        catch (InvalidOperationException)
+        {
+            // do nothing
         }
     }
 }
