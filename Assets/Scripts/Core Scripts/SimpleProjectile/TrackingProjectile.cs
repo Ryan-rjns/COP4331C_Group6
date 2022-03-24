@@ -5,11 +5,19 @@ using UnityEngine;
 public class TrackingProjectile : BaseProjectile
 {
     GameObject m_target;
+    Vector3 m_direction;
+
+    protected override void Start(){
+        base.Start();
+        MaxSpeed = 5.0f;
+        AccelTime = 3.0f;
+    }
 
     // Update is called once per frame
-    void Update(){
+    protected override void Update(){
+        base.Update();
         if(m_target){
-            transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, speed * Time.deltaTime);
+            transform.LookAt(m_target.transform.position);
         }
     }
 
@@ -17,6 +25,7 @@ public class TrackingProjectile : BaseProjectile
     {
         if(target){
             m_target = target;
+            TargetVelocity = ScaleVelocity(Vector3.forward);
         }
     }
 }
