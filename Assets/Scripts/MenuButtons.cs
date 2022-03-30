@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 // Functions for changing scene or exiting game
 public class MenuButtons : MonoBehaviour
 {
-
     // Scene Navigation
     public void MainMenu() => Scene.MainMenu.Load();
     public void Home() => Scene.Home.Load();
