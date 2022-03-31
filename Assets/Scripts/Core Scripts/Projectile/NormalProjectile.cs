@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NormalProjectile : BaseProjectile
 {
-    Quaternion m_direction;
+    Vector3 m_direction;
     bool m_fired;
     
 
@@ -21,8 +21,8 @@ public class NormalProjectile : BaseProjectile
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
         if(laucher && target){
-            m_direction = this.transform.rotation;
-            TargetVelocity = ScaleVelocity(Vector3.forward);
+            transform.LookAt(target.transform.position);
+            TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
     }
 }
