@@ -16,7 +16,7 @@ public class ShootingSystem : MonoBehaviour
     // Update is called once per frame
     void Update(){
         m_fireTimer += Time.deltaTime;
-        if(m_fireTimer >= fireRate){
+        
             float angle = Quaternion.Angle(transform.rotation,Quaternion.LookRotation(target.transform.position - transform.position));
 
             if(angle < fieldOfView){
@@ -25,7 +25,6 @@ public class ShootingSystem : MonoBehaviour
                 m_fireTimer = 0.0f;
             }
 
-        }
     }
 
     void SpawnProjectiles(){
