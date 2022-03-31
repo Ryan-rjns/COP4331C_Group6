@@ -6,13 +6,18 @@ using UnityEngine.SceneManagement;
 public class MenuButtons : MonoBehaviour
 {
     // Scene Navigation
-    public void MainMenu() => Scene.MainMenu.Load();
-    public void Home() => Scene.Home.Load();
-    public void Upgrades() => Scene.Upgrades.Load();
-    public void DebugScene() => Scene.DebugScene.Load();
-    public void Level1() => Scene.Level1.Load();
-    public void Level2() => Scene.Level2.Load();
-    public void Level3() => Scene.Level3.Load();
+    public void MainMenu() => Scene.MainMenu.LoadScene();
+    public void Home() => Scene.Home.LoadScene();
+    public void Upgrades() => Scene.Upgrades.LoadScene();
+    public void DebugScene() => Scene.DebugScene.LoadScene();
+    public void Level1() => Scene.Level1.LoadScene();
+    public void Level2() => Scene.Level2.LoadScene();
+    public void Level3() => Scene.Level3.LoadScene();
     public void RestartLevel() => GameManager.RestartScene();
     public void Exit() => Application.Quit();
+    public void LoadSaveSlot(int saveSlot)
+    {
+        GameManager.LoadData(saveSlot);
+        Home();
+    }
 }

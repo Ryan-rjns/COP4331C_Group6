@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public static class GameManager
 {
@@ -98,7 +100,7 @@ public static class GameManager
     }
 
     // Scene controls
-    public static string Name(this Scene scene)
+    public static string SceneName(this Scene scene)
     {
         if (scene == Scene.MainMenu) return "MainMenu";
         if (scene == Scene.Home) return "Home";
@@ -109,7 +111,7 @@ public static class GameManager
         if (scene == Scene.Level3) return "Level3";
         return "NoSceneNameFound";
     }
-    public static void Load(this Scene scene)
+    public static void LoadScene(this Scene scene)
     {
         // Clean up the old scene
         Time.timeScale = 1.0f;
@@ -118,11 +120,11 @@ public static class GameManager
         // Setup the new scene
         CurrentScene = scene;
         SceneObjectives = scene.CreateObjectives();
-        SceneManager.LoadScene(scene.Name());
+        SceneManager.LoadScene(scene.SceneName());
     }
     public static void RestartScene()
     {
-        CurrentScene.Load();
+        CurrentScene.LoadScene();
     }
     public static List<Objective> CreateObjectives(this Scene scene)
     {
@@ -149,6 +151,49 @@ public static class GameManager
         };
         return null;
     }
+
+
+    // Save File path and extension (relative to Application.persistentDataPath)
+    // Current Save File
+    public static PlayerData playerData = null;
+
+    // Saves the current SaveFile
+    public static bool SaveData()
+    {
+        if (playerData == null) return false;
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        string fullpath = Application.persistentDataPath + playerData.savePath;
+        FileStream stream = new FileStream(fullpath, FileMode.Create);
+        formatter.Serialize(stream, playerData);
+        stream.Close();
+        return true;
+    }
+    // Loads the specified save file, or creates a new one if there's no existing file.
+    public static void LoadData(int saveSlot)
+    {
+        string savePath = $"/SaveFile{saveSlot}.savefile";
+        playerData = null;
+        string fullpath = Application.persistentDataPath + savePath;
+        if (File.Exists(fullpath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(fullpath, FileMode.Open);
+            playerData = formatter.Deserialize(stream) as PlayerData;
+            stream.Close();
+            // If the file exists and was read properly, return
+            if (playerData != null) return;
+        }
+        // If the file was not found or if the read failed, create a new file
+        playerData = new PlayerData(savePath);
+        SaveData();
+    }
+    // Saves the current save file and then removes it from memory.
+    public static void ClearData()
+    {
+        SaveData();
+        playerData = null;
+    }
 }
 
 public enum Scene
@@ -160,4 +205,25 @@ public enum Scene
     Level1,
     Level2,
     Level3
+}
+
+// Serializable class that stores all of the info for each save file
+[System.Serializable]
+public class PlayerData
+{
+    public string savePath = "/DefaultPath.savefile";
+    public int money = 0;
+    // The first index is whether or not the level is cleared. The rest are bonus objectives.
+    public bool[] level1 = new bool[3];
+    public bool[] level2 = new bool[3];
+    public bool[] level3 = new bool[3];
+    // Each index corresponds to an upgrade button (top to bottom, for each upgrade)
+    public bool[] weapon1 = new bool[3];
+    public bool[] weapon2 = new bool[3];
+    public bool[] weapon3 = new bool[3];
+
+    public PlayerData(string savePath)
+    {
+        this.savePath = savePath;
+    }
 }
