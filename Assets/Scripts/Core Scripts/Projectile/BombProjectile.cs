@@ -19,8 +19,8 @@ public class BombProjectile : BaseProjectile
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
         if(laucher && target){
-            m_direction = (target.transform.position - laucher.transform.position).normalized;
-            TargetVelocity = ScaleVelocity(Vector3.forward);
+            m_direction = Vector3.down;
+            TargetVelocity = ScaleVelocity(Vector3.down);
         }
     }
 }
