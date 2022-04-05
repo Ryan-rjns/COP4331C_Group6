@@ -21,7 +21,7 @@ public class NormalProjectile : BaseProjectile
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
         if(laucher && target){
-            transform.LookAt(target.transform.position);
+            this.transform.rotation = laucher.transform.rotation;
             TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
     }

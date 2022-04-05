@@ -2672,11 +2672,20 @@ PrefabInstance:
       propertyPath: speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 3257322307216202309, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: m_target
+      value: 
+      objectReference: {fileID: 2096130320}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: ZPU_edited
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6499592064264493614, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2096130320}
+    m_RemovedComponents:
+    - {fileID: 4530124470963972332, guid: 16c390f808ace8213a733514050b3399, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 16c390f808ace8213a733514050b3399, type: 3}
 --- !u!1 &1643837127
 GameObject:
