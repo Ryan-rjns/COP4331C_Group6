@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // A helicopter with a camera that is controlled by player inputs.
 public class Player : Helicopter
@@ -11,10 +12,8 @@ public class Player : Helicopter
     public const float CAM1_MAX_DIST = 6.0f;
     public const float CAM1_MIN_DIST = 2.0f;
     private static Vector3 CAM2_POS = new Vector3(0, -0.6f, 0.7f);
-
     // If an object is blocking the camera, this is how far (in meters) the camera has to be in front of that object
     public const float CAM_BLOCKING_TOLERANCE = 0.05f;
-
     // A ref the this player's camera
     Camera cam;
     // The euler rotational offset of the camera due to player inputs
@@ -28,11 +27,16 @@ public class Player : Helicopter
     float camSpeed = 2000.0f;
     // A scalar for how fast the camera zooms in and out
     float camZoomSpeed = 1000.0f;
+    // Count of remaining weapons
+    public int weapon1;
+    public int weapon2;
+    public int weapon3;
 
     protected override void Start()
     {
         base.Start();
         cam = GetComponentInChildren<Camera>();
+        weapon1 = weapon2 = weapon3 = 5;
 
         if(cam != null)
         {
@@ -45,7 +49,7 @@ public class Player : Helicopter
     protected override void Update()
     {
         base.Update();
-
+         
         // Movement Input:
         FlyUp(Input.GetAxis("Jump"));
         FlyForward(Input.GetAxis("Vertical"));
