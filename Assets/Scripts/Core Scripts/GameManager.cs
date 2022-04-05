@@ -151,8 +151,10 @@ public static class GameManager
         };
         return null;
     }
-
-
+    // Function to update Objectives UI
+    public static void DisplayTask(int index, string task) {
+        HUD.objectives[index].text = task;
+    }
     // Save File path and extension (relative to Application.persistentDataPath)
     // Current Save File
     public static PlayerData playerData = null;
