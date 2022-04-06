@@ -6,9 +6,10 @@ public class BulletProjectile : BaseProjectile
 {
     GameObject m_launcher;
     GameObject m_target;
-    void Update(){
+    protected override void Update(){
+        base.Update();
         if(m_launcher){
-            GetComponent<LineRender>().SetPosition(0,m_target.transform.position);
+            //GetComponent<LineRender>().SetPosition(0,m_target.transform.position);
         }
     }
 
