@@ -39,8 +39,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3684188587577446350}
-  - component: {fileID: 5974158445195053262}
   - component: {fileID: 2825592115724829560}
+  - component: {fileID: 1864888100309308656}
   m_Layer: 0
   m_Name: MZKT-6922
   m_TagString: Untagged
@@ -67,29 +67,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5974158445195053262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3433711319703299817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 884c267ea7fc99f03a6849c70f2fcd1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireRate: 0.05
-  damage: 0
-  fieldOfView: 20
-  beam: 0
-  projectile: {fileID: 6310979295649777473, guid: 1d38e2f381cdf18b9b6306e9bc5b5c75, type: 3}
-  target: {fileID: 0}
-  projectileSpawns:
-  - {fileID: 4017986230044084959}
-  - {fileID: 7299100440594322168}
-  - {fileID: 3454960004366144219}
-  - {fileID: 1473649556182107706}
 --- !u!114 &2825592115724829560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +79,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2bf8529f57cc3059eaee9a433c0105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
+  m_target: {fileID: 0}
+--- !u!114 &1864888100309308656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3433711319703299817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ca4bd285b8a5948b0cbce6e9be2c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRate: 0.02
+  damage: 10
+  fieldOfView: 30
+  beam: 0
+  projectile: {fileID: 0}
+  target: {fileID: 0}
+  projectileSpawns:
+  - {fileID: 4017986230044084959}
+  - {fileID: 7299100440594322168}
+  - {fileID: 3454960004366144219}
+  - {fileID: 1473649556182107706}
 --- !u!1 &3454960004366144219
 GameObject:
   m_ObjectHideFlags: 0

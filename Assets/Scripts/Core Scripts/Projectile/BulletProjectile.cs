@@ -18,5 +18,10 @@ public class BulletProjectile : BaseProjectile
             m_launcher = launcher;
             m_target = target;
         }
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(launcher.transform.rotation.eulerAngles), out hit, Mathf.Infinity)){
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            //Debug.Log("Did Hit");
+        }
     }
 }
