@@ -55,7 +55,7 @@ public static class GameManager
 
     public static void Pause()
     {
-        GameObject pausePanel = GameObject.Find("Panels").transform.GetChild(2).gameObject;
+        GameObject pausePanel = GameObject.Find("Panels").transform.GetChild(3).gameObject;
         // Check if another panel is being displayed
         if (CurrentPanel == null)
         {
@@ -83,7 +83,7 @@ public static class GameManager
             Time.timeScale = 0;
             // Display win panel
             if (CurrentPanel != null) CurrentPanel.SetActive(false);
-            GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
+            GameObject winPanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
             CurrentPanel = winPanel;
             winPanel.SetActive(true);
         }
@@ -94,7 +94,7 @@ public static class GameManager
         Time.timeScale = 0;
         // Display loose panel
         if (CurrentPanel != null) CurrentPanel.SetActive(false);
-        GameObject losePanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
+        GameObject losePanel = GameObject.Find("Panels").transform.GetChild(2).gameObject;
         CurrentPanel = losePanel;
         losePanel.SetActive(true);
     }

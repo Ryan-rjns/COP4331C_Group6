@@ -30,11 +30,11 @@ public class Projectile : Entity
         // Damage any units in the explosion radius
         // (The Unit class will prevent friendly fire)
         Collider[] hits = Physics.OverlapSphere(transform.position, ExplosionRadius);
-        foreach(Collider c in hits)
+        foreach (Collider c in hits)
         {
-            if(c == null || c.gameObject == null) continue;
+            if (c == null || c.gameObject == null) continue;
             Unit u = c.gameObject.GetComponentInParent<Unit>();
-            if(u != null) u.Damaged(owner, power);
+            if (u != null) u.Damaged(owner, power);
         }
         // Destroy this missile
         Destroy(gameObject);
