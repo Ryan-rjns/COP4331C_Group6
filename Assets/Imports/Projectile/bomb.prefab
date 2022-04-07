@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5754084199372789682}
   - component: {fileID: -7511558181221131132}
   - component: {fileID: 1356564935831880890}
-  - component: {fileID: 4704218198782040174}
+  - component: {fileID: -5254683360911977982}
   m_Layer: 0
   m_Name: bomb
   m_TagString: Untagged
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
---- !u!54 &4704218198782040174
+--- !u!54 &-5254683360911977982
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
