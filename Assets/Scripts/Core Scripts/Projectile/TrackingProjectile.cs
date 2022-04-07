@@ -17,15 +17,21 @@ public class TrackingProjectile : BaseProjectile
     protected override void Update(){
         base.Update();
         if(m_target){
-            transform.LookAt(m_target.transform.position);
+            this.transform.LookAt(m_target.transform.position);
+            TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
+    }
+    void OnCollisionEnter(){
+        Debug.Log("Hit");
+        Destroy(this.gameObject);
     }
 
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
-        if(target){
-            m_target = target;
-            TargetVelocity = ScaleVelocity(Vector3.forward);
+        m_target = target;
+        if(laucher && target){
+            this.transform.rotation = laucher.transform.rotation;
+            TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
     }
 }
