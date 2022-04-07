@@ -18,6 +18,8 @@ public class TrackingProjectile : BaseProjectile
         base.Update();
         if(m_target){
             transform.LookAt(m_target.transform.position);
+            TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
+
         }
     }
 
@@ -25,7 +27,8 @@ public class TrackingProjectile : BaseProjectile
     {
         if(target){
             m_target = target;
-            TargetVelocity = ScaleVelocity(Vector3.forward);
+            this.transform.rotation = laucher.transform.rotation;
+            TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
     }
 }
