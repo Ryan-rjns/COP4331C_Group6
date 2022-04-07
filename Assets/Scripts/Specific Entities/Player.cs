@@ -49,6 +49,13 @@ public class Player : Helicopter
     protected override void Update()
     {
         base.Update();
+
+        // Debug commands:
+        if (Input.GetKeyUp(KeyCode.Keypad0))
+        {
+            Debug.Log("Player: Pressed 0, Damaging player");
+            Damaged(null,10);
+        }
          
         // Movement Input:
         FlyUp(Input.GetAxis("Jump"));

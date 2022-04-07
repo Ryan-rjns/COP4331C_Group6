@@ -16,7 +16,7 @@ public class ShootingSystemFlat : MonoBehaviour
     // Update is called once per frame
     void Update(){
             m_fireTimer += Time.deltaTime;
-            if(m_fireTimer >= fireRate){
+            if(m_fireTimer >= fireRate && target != null){
                 //Vector3( target.transform.position.x, this.transform.position.y, target.transform.position.z );
                 float angle = Quaternion.Angle(transform.rotation,Quaternion.LookRotation(new Vector3( target.transform.position.x, this.transform.position.y, target.transform.position.z ) - transform.position));
                 if(angle < fieldOfView){

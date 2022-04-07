@@ -31,18 +31,27 @@ public class HUD : MonoBehaviour
     {
         // Update Health UI
         Player currPlayer = GameManager.GetPlayer();
-        float currHealth = Mathf.Clamp(currPlayer.Health, 0, currPlayer.MaxHealth);
-        float percent = currHealth / currPlayer.MaxHealth;
-        healthBar.fillAmount = percent;
-        if(percent < 0.25f) {
-            healthBar.color = Color.red;
-        } else {
-            healthBar.color = Color.green;
+        if (currPlayer != null)
+        {
+            float currHealth = Mathf.Clamp(currPlayer.Health, 0, currPlayer.MaxHealth);
+            float percent = currHealth / currPlayer.MaxHealth;
+            healthBar.fillAmount = percent;
+            if (percent < 0.25f)
+            {
+                healthBar.color = Color.red;
+            }
+            else
+            {
+                healthBar.color = Color.green;
+            }
+            health.text = currHealth.ToString("N1");
+            // Update Weapons UI
+            if (GameManager.playerData != null)
+            {
+                if (GameManager.playerData.weapon1[0]) weapons[0].text = currPlayer.weapon1.ToString();
+                if (GameManager.playerData.weapon2[0]) weapons[1].text = currPlayer.weapon2.ToString();
+                if (GameManager.playerData.weapon3[0]) weapons[2].text = currPlayer.weapon3.ToString();
+            }
         }
-        health.text = currHealth.ToString("N1");
-        // Update Weapons UI
-        if(GameManager.playerData.weapon1[0]) weapons[0].text = currPlayer.weapon1.ToString();
-        if(GameManager.playerData.weapon2[0]) weapons[1].text = currPlayer.weapon2.ToString();
-        if(GameManager.playerData.weapon3[0]) weapons[2].text = currPlayer.weapon3.ToString();
     }
 }
