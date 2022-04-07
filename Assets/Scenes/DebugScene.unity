@@ -5354,15 +5354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b7dd66effd44741b8b3e0a9f9eecac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  explosionPrefab: {fileID: 0}
-=======
   explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
->>>>>>> 5164df2ccdccf2331cf40184233ec65fa1e150c3
-=======
-  explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
->>>>>>> parent of 14ab9aa (Merge branch 'main' of https://github.com/Ryan-rjns/COP4331C_Group6)
   weapon1: 0
   weapon2: 0
   weapon3: 0

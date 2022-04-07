@@ -109,7 +109,5 @@ public abstract class Unit : Entity
     {
         EntityDebug("DEAD");
         Instantiate(explosionPrefab, transform.position, transform.rotation);
-        //Destroy(explosionPrefab);
-
     }
 }
