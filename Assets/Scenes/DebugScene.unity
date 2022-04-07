@@ -545,7 +545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD
     - target: {fileID: 1864888100309308656, guid: fec49ca31a9cdcc848d32b77a2bbcbf0, type: 3}
       propertyPath: target
       value: 
@@ -566,8 +565,6 @@ PrefabInstance:
       propertyPath: m_target
       value: 
       objectReference: {fileID: 2096130320}
-=======
->>>>>>> parent of 14ab9aa (Merge branch 'main' of https://github.com/Ryan-rjns/COP4331C_Group6)
     - target: {fileID: 3433711319703299817, guid: fec49ca31a9cdcc848d32b77a2bbcbf0, type: 3}
       propertyPath: m_Name
       value: MZKT-6922
@@ -3792,13 +3789,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 2096130320}
-<<<<<<< HEAD
     - target: {fileID: 6499592064264493614, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: projectile
       value: 
       objectReference: {fileID: 6310979295649777473, guid: 1d38e2f381cdf18b9b6306e9bc5b5c75, type: 3}
-=======
->>>>>>> parent of 14ab9aa (Merge branch 'main' of https://github.com/Ryan-rjns/COP4331C_Group6)
     m_RemovedComponents:
     - {fileID: 4530124470963972332, guid: 16c390f808ace8213a733514050b3399, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 16c390f808ace8213a733514050b3399, type: 3}
