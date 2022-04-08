@@ -99,7 +99,7 @@ public abstract class Unit : Entity
     // If source is an enemy, it gets credit for the kill
     public void Killed(Unit source)
     {
-        if (source != null) source.AddKill(team.Name);
+        //if (source != null) source.AddKill(team.Name);
         DeathAnimation();
         Destroy(this);
     }
