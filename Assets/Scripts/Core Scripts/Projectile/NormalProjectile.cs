@@ -14,6 +14,14 @@ public class NormalProjectile : BaseProjectile
         MaxSpeed = 5.0f;
         AccelTime = 3.0f;
     }
+    private void OnTriggerEnter(Collider c){
+        if(c == null || c.gameObject == null) return;
+        Unit u = c.gameObject.GetComponentInParent<Unit>();
+        if(u != null) u.Damaged(owner, power);
+        // Destroy this missile
+        Debug.Log("hit....");
+        Destroy(gameObject);
+    }
 
     // Update is called once per frame
 

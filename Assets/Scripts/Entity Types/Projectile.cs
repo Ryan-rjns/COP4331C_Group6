@@ -32,7 +32,7 @@ public class Projectile : Entity
         Collider[] hits = Physics.OverlapSphere(transform.position, ExplosionRadius);
         foreach(Collider c in hits)
         {
-            if(c == null || c.gameObject == null) continue;
+            if(c == null || c.gameObject == null) {return;}
             Unit u = c.gameObject.GetComponentInParent<Unit>();
             if(u != null) u.Damaged(owner, power);
         }
