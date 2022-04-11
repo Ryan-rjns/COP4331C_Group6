@@ -21,7 +21,7 @@ public class ShootingSystemFlat : Unit
                 //Vector3( target.transform.position.x, this.transform.position.y, target.transform.position.z );
                 float angle = Quaternion.Angle(transform.rotation,Quaternion.LookRotation(new Vector3( target.transform.position.x, this.transform.position.y, target.transform.position.z ) - transform.position));
                 if(angle < fieldOfView){
-                    //SpawnProjectiles();
+                    SpawnProjectiles();
 
                     m_fireTimer = 0.0f;
                 }

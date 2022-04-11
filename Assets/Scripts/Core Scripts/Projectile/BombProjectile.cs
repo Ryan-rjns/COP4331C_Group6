@@ -13,6 +13,15 @@ public class BombProjectile : BaseProjectile
         base.Start();
     }
 
+    private void OnTriggerEnter(Collider c){
+        if(c == null || c.gameObject == null) return;
+        Unit u = c.GetComponentInParent<Unit>();
+        if(u == null || u == this.owner) return;
+        u.Damaged(owner, power);
+        // Destroy this missile
+        Debug.Log("hit....");
+        Destroy(gameObject);
+    }
     // Update is called once per frame
 
 
