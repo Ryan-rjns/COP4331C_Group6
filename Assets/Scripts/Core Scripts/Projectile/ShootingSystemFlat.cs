@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingSystemFlat : Unit
+public class ShootingSystemFlat : MonoBehaviour
 {
     public float fireRate;
     public int damage;
@@ -14,8 +14,7 @@ public class ShootingSystemFlat : Unit
     List<GameObject> m_lastProjectiles = new List<GameObject>();
     float m_fireTimer = 0.0f;
     // Update is called once per frame
-    protected override void Update(){
-            base.Update();
+    void Update(){
             m_fireTimer += Time.deltaTime;
             if(m_fireTimer >= fireRate && target != null){
                 //Vector3( target.transform.position.x, this.transform.position.y, target.transform.position.z );
@@ -32,8 +31,6 @@ public class ShootingSystemFlat : Unit
         for(int i = 0; i < projectileSpawns.Count;i++){
             if(projectileSpawns[i]){
                 GameObject proj = GameObject.Instantiate(projectile, projectileSpawns[i].transform.position, Quaternion.Euler(projectileSpawns[i].transform.forward)) as GameObject;
-                proj.GetComponent<BaseProjectile>().owner = this;
-                proj.GetComponent<BaseProjectile>().power = damage;
                 proj.GetComponent<BaseProjectile>().FireProjectile(projectileSpawns[i], target, damage);
 
                 m_lastProjectiles.Add(proj);

@@ -55,7 +55,7 @@ public static class GameManager
 
     public static void Pause()
     {
-        GameObject pausePanel = GameObject.Find("Panels").transform.GetChild(3).gameObject;
+        GameObject pausePanel = GameObject.Find("Panels").transform.GetChild(2).gameObject;
         // Check if another panel is being displayed
         if (CurrentPanel == null)
         {
@@ -83,7 +83,7 @@ public static class GameManager
             Time.timeScale = 0;
             // Display win panel
             if (CurrentPanel != null) CurrentPanel.SetActive(false);
-            GameObject winPanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
+            GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
             CurrentPanel = winPanel;
             winPanel.SetActive(true);
         }
@@ -94,7 +94,7 @@ public static class GameManager
         Time.timeScale = 0;
         // Display loose panel
         if (CurrentPanel != null) CurrentPanel.SetActive(false);
-        GameObject losePanel = GameObject.Find("Panels").transform.GetChild(2).gameObject;
+        GameObject losePanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
         CurrentPanel = losePanel;
         losePanel.SetActive(true);
     }
@@ -104,7 +104,6 @@ public static class GameManager
     {
         if (scene == Scene.MainMenu) return "MainMenu";
         if (scene == Scene.Home) return "Home";
-        if (scene == Scene.Upgrades) return "Upgrades";
         if (scene == Scene.DebugScene) return "DebugScene";
         if (scene == Scene.Level1) return "Level1";
         if (scene == Scene.Level2) return "Level2";
@@ -130,7 +129,6 @@ public static class GameManager
     {
         if (scene == Scene.MainMenu) return null;
         if (scene == Scene.Home) return null;
-        if (scene == Scene.Upgrades) return null;
         if (scene == Scene.DebugScene) return new List<Objective>
         {
             new Objective("DebugObjective1", "Debug trigger zone test")
@@ -155,6 +153,7 @@ public static class GameManager
     public static void DisplayTask(int index, string task) {
         HUD.objectives[index].text = task;
     }
+    
     // Save File path and extension (relative to Application.persistentDataPath)
     // Current Save File
     public static PlayerData playerData = null;
@@ -202,7 +201,6 @@ public enum Scene
 {
     MainMenu,
     Home,
-    Upgrades,
     DebugScene,
     Level1,
     Level2,
@@ -214,7 +212,7 @@ public enum Scene
 public class PlayerData
 {
     public string savePath = "/DefaultPath.savefile";
-    public int money = 0;
+    public int money = 1000;
     // The first index is whether or not the level is cleared. The rest are bonus objectives.
     public bool[] level1 = new bool[3];
     public bool[] level2 = new bool[3];
