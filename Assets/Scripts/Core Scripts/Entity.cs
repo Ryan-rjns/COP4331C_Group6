@@ -70,7 +70,7 @@ public abstract class Entity : MonoBehaviour
     private Rigidbody rb = null;
 
     // The maximum speed (in m/s) of this Entity
-    float _maxSpeed = 2.0f;
+    float _maxSpeed = 10.0f;
     public float MaxSpeed
     {
         get => _maxSpeed;
@@ -85,7 +85,7 @@ public abstract class Entity : MonoBehaviour
     }
     
     // The time (in seconds) it takes this Entity to accelerate from 0 to MaxSpeed
-    float _accelTime = 2.0f;
+    float _accelTime = 0.1f;
     public float AccelTime
     {
         get => _accelTime;
@@ -124,7 +124,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     // The turning (yaw) speed (in deg/s) of this Entity
-    float _turnSpeed = 20.0f;
+    float _turnSpeed = 25.0f;
     public float TurnSpeed
     {
         get => _turnSpeed;

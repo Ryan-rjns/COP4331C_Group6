@@ -22,6 +22,8 @@ public abstract class Helicopter : Unit
     const float TILT_TIME = 1.0f;
     // How far away from the ground the helicopter has to be before it is considered "flying"
     const float GROUND_DISTANCE = 0.30f;
+    // Player height limit
+    const float HEIGHT_LIMIT = 30.0f;
 
 
     bool grounded;
@@ -92,6 +94,7 @@ public abstract class Helicopter : Unit
     {
         // When fully hgrounded, the helicopter can only fly up
         if (grounded && speed <= 0) speed = 0;
+        if (transform.position.y >= HEIGHT_LIMIT && speed >= 0) speed = -1;
         else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.y = speed;
     }

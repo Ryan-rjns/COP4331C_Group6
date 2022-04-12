@@ -14,12 +14,14 @@ public class Player : Helicopter
     private static Vector3 CAM2_POS = new Vector3(0, -0.6f, 0.7f);
     // If an object is blocking the camera, this is how far (in meters) the camera has to be in front of that object
     public const float CAM_BLOCKING_TOLERANCE = 0.05f;
+    // Targeting max distance
+    public const float TARGET_MAX_DIST = 75.0f;
     // A ref the this player's camera
     Camera cam;
     // The euler rotational offset of the camera due to player inputs
     Vector3 camRot;
     // Current camera
-    private int currentCam = 0;
+    public int currentCam = 0;
     // How far (in meters) away from the player the camera is
     float cam0Dist = 3.0f;
     float cam1Dist = 4.0f;
@@ -31,12 +33,18 @@ public class Player : Helicopter
     public int weapon1;
     public int weapon2;
     public int weapon3;
+    // Current weapon
+    public int currWeapon = 0;
+    // Targeting refs
+    public GameObject[] enemies = null;
+    public List<Vector3> targets = null;
 
     protected override void Start()
     {
         base.Start();
         cam = GetComponentInChildren<Camera>();
         weapon1 = weapon2 = weapon3 = 5;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         if(cam != null)
         {
@@ -49,7 +57,7 @@ public class Player : Helicopter
     protected override void Update()
     {
         base.Update();
-
+        
         // Debug commands:
         if (Input.GetKeyUp(KeyCode.Keypad0))
         {
@@ -74,6 +82,22 @@ public class Player : Helicopter
             currentCam = (currentCam + 1) % 3;
         }
 
+        // Change Weapons
+        if(GameManager.playerData != null) {
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                if(GameManager.playerData.weapon1[0]) currWeapon = 1;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                if(GameManager.playerData.weapon2[0]) currWeapon = 2;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
+                if(GameManager.playerData.weapon3[0]) currWeapon = 3;
+            }
+        }
+
         // Cam 0: Third Person: indepently rotate around player and zoom in/out
         if (currentCam == 0)
         {
@@ -96,7 +120,7 @@ public class Player : Helicopter
                 cam.transform.position = blockingHit.Value.hit.point + (blockingHit.Value.hit.normal * CAM_BLOCKING_TOLERANCE);
             }
         }
-        // Cam 1: Top-Down: Follow player's yaw, zomm in/out
+        // Cam 1: Top-Down: Follow player's yaw, zoom in/out
         else if(currentCam == 1) {
             cam.transform.position = transform.position + (Vector3.up * cam1Dist);
             cam1Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
@@ -109,6 +133,25 @@ public class Player : Helicopter
         {
             cam.transform.position = transform.position + (transform.rotation * CAM2_POS);
             cam.transform.rotation = transform.rotation;
+            targets = visibleEnemies();
         }
+    }
+    private void OnCollisionEnter(Collision col) {
+        this.Damaged(null, this.Health);
+    } 
+    public List<Vector3> visibleEnemies() {
+        List<Vector3> visible = new List<Vector3>();
+        
+        foreach(GameObject e in enemies) {
+            Vector3 screenPoint = cam.WorldToViewportPoint(e.transform.position);
+            float enemyDistance = (transform.position - e.transform.position).magnitude;
+
+            if(enemyDistance <= TARGET_MAX_DIST && screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 
+                                                && screenPoint.y > 0 && screenPoint.y < 1) {
+                visible.Add(cam.WorldToScreenPoint(e.transform.position));
+            }
+        }
+
+        return visible;
     }
 }

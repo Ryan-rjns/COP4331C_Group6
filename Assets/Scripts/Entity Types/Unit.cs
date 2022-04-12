@@ -91,7 +91,7 @@ public abstract class Unit : Entity
 
         float finalDamage = Mathf.Max(damage - Armor,0);
         HealthLost += finalDamage;
-        if (Health < 0) Killed(source);
+        if (Health <= 0) Killed(source);
         return finalDamage;
     }
 
