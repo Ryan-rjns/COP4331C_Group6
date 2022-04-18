@@ -19,11 +19,11 @@ public abstract class Helicopter : Unit
     // The maximum roll (in degrees) when the helicopter is moving laterally
     const float MAX_ROLL = 20.0f;
     // The time (in seconds) it takes the helicopter to go from 0 to max pitch/roll
-    const float TILT_TIME = 1.0f;
+    const float TILT_TIME = 0.5f;
     // How far away from the ground the helicopter has to be before it is considered "flying"
     const float GROUND_DISTANCE = 0.30f;
     // Player height limit
-    const float HEIGHT_LIMIT = 30.0f;
+    const float HEIGHT_LIMIT = 10.0f;
 
 
     bool grounded;
@@ -37,8 +37,8 @@ public abstract class Helicopter : Unit
     {
         base.Start();
         // The default speed and accelration for a helicopter:
-        MaxSpeed = 3.0f;
-        AccelTime = 3.0f;
+        MaxSpeed = 5.0f;
+        AccelTime = 1.0f;
         // For example: move forwards at max speed:
         TargetVelocity = ScaleVelocity(Vector3.forward);
     }

@@ -11,6 +11,18 @@ public static class GameManager
     public static Scene CurrentScene { get; private set; } = Scene.MainMenu;
     // Current UI panel
     public static GameObject CurrentPanel { get; private set; } = null;
+    // Current HUD
+    public static GameObject HUDPanel
+    {
+        get
+        {
+            GameObject panels = GameObject.Find("Panels");
+            if (panels == null) return null;
+            Transform HUD = panels.transform.GetChild(3);
+            if (HUD == null) return null;
+            return HUD.gameObject;
+        }
+    }
     // A list of the objectives for this level
     private static List<Objective> _sceneObjectives = null;
     public static List<Objective> SceneObjectives 
@@ -63,12 +75,16 @@ public static class GameManager
             CurrentPanel = pausePanel;
             pausePanel.SetActive(true);
             Time.timeScale = 0;
+            SetHUDEnabled(false);
+            LockCursor(false);
         }
         else if (CurrentPanel == pausePanel)
         {
             CurrentPanel = null;
             pausePanel.SetActive(false);
             Time.timeScale = 1;
+            SetHUDEnabled(true);
+            LockCursor(true);
         }
     }
     public static void Win()
@@ -81,6 +97,8 @@ public static class GameManager
             // TODO: Record the player's win and bonus objectives
             // Freeze the game
             Time.timeScale = 0;
+            SetHUDEnabled(false);
+            LockCursor(false);
             // Display win panel
             if (CurrentPanel != null) CurrentPanel.SetActive(false);
             GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
@@ -92,11 +110,24 @@ public static class GameManager
     {
         // Freeze the game
         Time.timeScale = 0;
+        SetHUDEnabled(false);
+        LockCursor(false);
         // Display loose panel
         if (CurrentPanel != null) CurrentPanel.SetActive(false);
         GameObject losePanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
         CurrentPanel = losePanel;
         losePanel.SetActive(true);
+    }
+    public static void SetHUDEnabled(bool enabled)
+    {
+        if (HUDPanel == null) return;
+        HUDPanel.SetActive(enabled);
+    }
+    // Hides the cursor and locks it into the game
+    public static void LockCursor(bool locked)
+    {
+        Cursor.visible = !locked;
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 
     // Scene controls
@@ -119,6 +150,7 @@ public static class GameManager
         // Setup the new scene
         CurrentScene = scene;
         SceneObjectives = scene.CreateObjectives();
+        Debug.Log($"Loading Scene {scene.SceneName()}");
         SceneManager.LoadScene(scene.SceneName());
     }
     public static void RestartScene()
@@ -137,7 +169,10 @@ public static class GameManager
         };
         if (scene == Scene.Level1) return new List<Objective>
         {
-
+            new Objective("Destroy all enemy turrets", "L1.1")
+                .Task(KillCounter.GetFlag("Level1Kills")),
+            new Objective("Land at the enemy base", "L1.2")
+                .Task(TriggerZone.GetFlag("Level1Zone"))
         };
         if (scene == Scene.Level2) return new List<Objective>
         {
@@ -159,13 +194,15 @@ public static class GameManager
     public static PlayerData playerData = null;
 
     // Saves the current SaveFile
-    public static bool SaveData()
+    // If erase is true, this instead erases the current SaveFile and replaces it with a blank one
+    public static bool SaveData(bool erase = false)
     {
         if (playerData == null) return false;
 
         BinaryFormatter formatter = new BinaryFormatter();
         string fullpath = Application.persistentDataPath + playerData.savePath;
         FileStream stream = new FileStream(fullpath, FileMode.Create);
+        if(erase) playerData = new PlayerData(playerData.savePath);
         formatter.Serialize(stream, playerData);
         stream.Close();
         return true;
@@ -225,5 +262,6 @@ public class PlayerData
     public PlayerData(string savePath)
     {
         this.savePath = savePath;
+        weapon1[0] = true;
     }
 }
