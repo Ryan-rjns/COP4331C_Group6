@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TrackingProjectile : BaseProjectile
 {
+    GameObject m_launcher;
     GameObject m_target;
     Vector3 m_direction;
+    int m_damage;
 
     protected override void Start(){
         base.Start();
@@ -21,14 +23,15 @@ public class TrackingProjectile : BaseProjectile
             TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);
         }
     }
-    void OnCollisionEnter(){
-        Debug.Log("Hit");
+    void OnTriggerEnter(Collider other) {
         Destroy(this.gameObject);
     }
 
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
         m_target = target;
+        m_damage = damage;
+        m_launcher = laucher;
         if(laucher && target){
             this.transform.rotation = laucher.transform.rotation;
             TargetVelocity = ScaleVelocity(this.transform.rotation * Vector3.forward);

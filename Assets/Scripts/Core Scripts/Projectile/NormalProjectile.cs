@@ -15,8 +15,17 @@ public class NormalProjectile : BaseProjectile
         AccelTime = 3.0f;
     }
 
-    // Update is called once per frame
+    protected override void Update(){
+        base.Update();
+        if(Time.deltaTime >= 10){
+            Destroy(this.gameObject);
+        }
+    }
 
+    // Update is called once per frame
+    void OnTriggerEnter(Collider other) {
+        Destroy(this.gameObject);
+    }
 
     public override void FireProjectile(GameObject laucher, GameObject target, int damage)
     {
