@@ -258,6 +258,8 @@ public class PlayerData
     public bool[] weapon1 = new bool[3];
     public bool[] weapon2 = new bool[3];
     public bool[] weapon3 = new bool[3];
+    // False = Normal, true = hard
+    public bool difficultyHard = false;
 
     public PlayerData(string savePath)
     {
