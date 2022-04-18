@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class Turret : Unit
 {
-    public const float FIRE_RATE = 4.0f;
 
     public GameObject projectile;
     public GameObject trackingObject;
     public bool trackingPitch = true;
     public float attackPower = 4.0f;
     public float health = 20.0f;
+    public float aggroDist = 15.0f;
+    public float rateOfFire = 4.0f;
 
     private GameObject player;
     private Transform bulletSpawn;
-    private float cooldown = FIRE_RATE;
+    private float cooldown = 0;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Update();
 
-        // Unit vars
+        // Init vars
         MaxHealth = health;
+        cooldown = rateOfFire;
 
         // Register player
         player = GameObject.Find("Player");
@@ -38,6 +40,7 @@ public class Turret : Unit
     protected override void Update()
     {
         base.Update();
+        if (player == null) return;
 
         // Rotation
         if (trackingObject != null)
@@ -49,9 +52,14 @@ public class Turret : Unit
         }
 
         // Firing
-        if(cooldown <= 0)
+        float playerDist = (player.transform.position - transform.position).magnitude;
+        if (cooldown > 0)
         {
-            cooldown = FIRE_RATE;
+            cooldown -= Time.deltaTime;
+        }
+        else if (playerDist <= aggroDist)
+        {
+            cooldown = rateOfFire;
             GameObject spawned = Instantiate(projectile, bulletSpawn.position, bulletSpawn.rotation);
             Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
             if(spawnedProjectile != null)
@@ -60,10 +68,6 @@ public class Turret : Unit
                 spawnedProjectile.power = attackPower;
                 spawnedProjectile.explosion = explosionPrefab;
             }
-        }
-        else
-        {
-            cooldown -= Time.deltaTime;
         }
     }
 }

@@ -116,7 +116,7 @@ public abstract class Unit : Entity
     // Child classes can override this and use it to spawn in a seperate, non-unit death animation.
     public virtual void DeathAnimation(bool destroySelf = true) 
     {
-        EntityDebug("DEAD");
+        //EntityDebug("DEAD");
         Instantiate(explosionPrefab, transform.position, transform.rotation);
         if(destroySelf) Destroy(gameObject);
     }

@@ -11,7 +11,7 @@ public class Player : Helicopter
     public const float CAM0_MIN_DIST = 2.0f;
     public const float CAM1_MAX_DIST = 6.0f;
     public const float CAM1_MIN_DIST = 2.0f;
-    private static Vector3 CAM2_POS = new Vector3(0, -0.6f, 0.7f);
+    private static Vector3 CAM1_POS = new Vector3(0, -0.35f, 0.7f);
     // If an object is blocking the camera, this is how far (in meters) the camera has to be in front of that object
     public const float CAM_BLOCKING_TOLERANCE = 0.05f;
     // Targeting max distance
@@ -29,6 +29,7 @@ public class Player : Helicopter
     // The euler rotational offset of the camera due to player inputs
     Vector3 camRot;
     // Current camera
+    [HideInInspector]
     public int currentCam = 0;
     // How far (in meters) away from the player the camera is
     float cam0Dist = 3.0f;
@@ -62,6 +63,9 @@ public class Player : Helicopter
     {
         base.Start();
 
+        // Init vars
+        currWeapon = 1;
+
         // Initialize teams
         team = Team.Get("Player").SetRel("Enemy", Relationship.HOSTILE);
         Team.Get("Enemy").SetRel("Player", Relationship.HOSTILE);
@@ -73,7 +77,6 @@ public class Player : Helicopter
         cam = GetComponentInChildren<Camera>();
         weapon1 = weapon2 = weapon3 = 5;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
         if(cam != null)
         {
             camRot = Quaternion.LookRotation(cam.transform.position, transform.position).eulerAngles.Euler180();
@@ -119,7 +122,8 @@ public class Player : Helicopter
 
         // Cam Toggle Key:
         if (Input.GetKeyUp(KeyCode.Tab)) {
-            currentCam = (currentCam + 1) % 3;
+            // %2 disables Cam2, %3 enables it.
+            currentCam = (currentCam + 1) % 2;
         }
 
         // Change Weapons
@@ -138,42 +142,46 @@ public class Player : Helicopter
             }
         }
 
-        // Cam 0: Third Person: indepently rotate around player and zoom in/out
-        if (currentCam == 0)
+        // Cam 0 and 1: Accept rotation input
+        if (currentCam == 0 || currentCam == 1)
         {
-            // Accept camera input
-            camRot += new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * camSpeed * Time.deltaTime;
-            cam0Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
-            // Constrain camera input
+            Vector3 mouseInput = new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
+            camRot += mouseInput * camSpeed * Time.deltaTime;
             camRot = camRot.ClampX(-80.0f, 80.0f);
-            cam0Dist = Mathf.Clamp(cam0Dist, CAM0_MIN_DIST, CAM0_MAX_DIST);
             // Calculate the camera angle according to helicopter yaw and accumulated player input
             Quaternion camAngle = Quaternion.Euler(camRot + transform.rotation.eulerAngles.y.ToVecY());
-            cam.transform.position = transform.position + (camAngle * (Vector3.forward * cam0Dist));
-            cam.transform.LookAt(transform);
 
-            // Spring arm the camera so that it doesn't clip through objects (It's not perfect, but it mostly works)
-            var blockingHit = StarLib.RaycastSearch(transform.position, cam.transform.position).GetV(0);
-            if (blockingHit != null)
+            // Cam 0: Third Person: indepently rotate around player and zoom in/out
+            if (currentCam == 0)
             {
-                Vector3 springArmDir = (cam.transform.position - transform.position).normalized;
-                cam.transform.position = blockingHit.Value.hit.point + (blockingHit.Value.hit.normal * CAM_BLOCKING_TOLERANCE);
+                cam0Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
+                cam0Dist = Mathf.Clamp(cam0Dist, CAM0_MIN_DIST, CAM0_MAX_DIST);
+                cam.transform.position = transform.position + (camAngle * (Vector3.forward * cam0Dist));
+                cam.transform.LookAt(transform);
+                // Spring arm the camera so that it doesn't clip through objects (It's not perfect, but it mostly works)
+                var blockingHit = StarLib.RaycastSearch(transform.position, cam.transform.position).GetV(0);
+                if (blockingHit != null)
+                {
+                    Vector3 springArmDir = (cam.transform.position - transform.position).normalized;
+                    cam.transform.position = blockingHit.Value.hit.point + (blockingHit.Value.hit.normal * CAM_BLOCKING_TOLERANCE);
+                }
+            }
+            // Cam 1: First Person: Fixed in place, follows mouse control
+            else if (currentCam == 1)
+            {
+                if(bulletSpawn != null) cam.transform.position = bulletSpawn.transform.position;
+                else cam.transform.position = transform.position + (transform.rotation * CAM1_POS);
+                cam.transform.rotation = Quaternion.Euler(new Vector3(camAngle.eulerAngles.x + 180.0f, camAngle.eulerAngles.y, camAngle.eulerAngles.z));
+                targets = visibleEnemies();
             }
         }
-        // Cam 1: Top-Down: Follow player's yaw, zoom in/out
-        else if(currentCam == 1) {
+        // Cam 2: Top-Down: Follow player's yaw, zoom in/out (DISABLED)
+        if(currentCam == 2) {
             cam.transform.position = transform.position + (Vector3.up * cam1Dist);
             cam1Dist += -1 * Input.GetAxis("Mouse ScrollWheel") * camZoomSpeed * Time.deltaTime;
             cam1Dist = Mathf.Clamp(cam1Dist, CAM1_MIN_DIST, CAM1_MAX_DIST);
             cam.transform.LookAt(transform.position);
             cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, cam.transform.rotation.eulerAngles.x);
-        }
-        // Cam 2: First Person: Fixed in place, follows helicopter's movements
-        else if (currentCam == 2)
-        {
-            cam.transform.position = transform.position + (transform.rotation * CAM2_POS);
-            cam.transform.rotation = transform.rotation;
-            targets = visibleEnemies();
         }
     }
 
@@ -221,6 +229,11 @@ public class Player : Helicopter
     private void PlayerFire()
     {
         // Check for errors
+        if (currWeapon < 1 || currWeapon > 3)
+        {
+            Debug.LogError($"currWeapon {currWeapon} is outside of range [1,3]!");
+            return;
+        }
         if (bulletSpawn == null) return;
         GameObject weaponPrefab = currWeapon == 2 ? weapon2Prefab : (currWeapon == 3 ? weapon3Prefab : weapon1Prefab);
         if(weaponPrefab == null)
@@ -229,21 +242,31 @@ public class Player : Helicopter
             return;
         }
 
-        // Manage cooldowns
-        if (weaponCooldowns[currWeapon] > 0) return;
-        // TODO: Determine cooldown from specific weapon's upgrades
-        weaponCooldowns[currWeapon] = 1.0f;
+        // Check cooldown
+        if (weaponCooldowns[currWeapon-1] > 0) return;
 
-        // TODO: determine attack power from selected weapon and its upgrades
+        
         float attackPower = 5.0f;
+        Vector3 spawnPoint = bulletSpawn.position;
+        Quaternion spawnRotation = bulletSpawn.rotation;
 
-        GameObject spawned = Instantiate(weaponPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        if(currWeapon == 1)
+        {
+            // TODO: Determine cooldown and attack power from specific weapon's upgrades
+            weaponCooldowns[currWeapon-1] = 1.0f;
+            attackPower = 5.0f;
+            if(currentCam == 1) spawnRotation = cam.transform.rotation;
+        }
+        
+
+        GameObject spawned = Instantiate(weaponPrefab, spawnPoint, spawnRotation);
         Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
         if (spawnedProjectile != null)
         {
             spawnedProjectile.owner = this;
             spawnedProjectile.power = attackPower;
             spawnedProjectile.explosion = explosionPrefab;
+            spawnedProjectile.StartingVelocity = Vector3.forward * 15;
         }
     }
 }

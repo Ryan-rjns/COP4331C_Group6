@@ -70,7 +70,7 @@ public class HUD : MonoBehaviour
                 if(currPlayer.currWeapon == 3) weaponHighlight.rectTransform.anchoredPosition = new Vector2(380, -170);
             }
             // Display crosshair
-            if(currPlayer.currentCam == 2) {
+            if(currPlayer.currentCam == 1) {
                 crosshair.enabled = true;
                 if(currPlayer.targets.Count != 0) {
                     float distance = Mathf.Infinity;

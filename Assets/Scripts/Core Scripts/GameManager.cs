@@ -150,6 +150,7 @@ public static class GameManager
         // Setup the new scene
         CurrentScene = scene;
         SceneObjectives = scene.CreateObjectives();
+        Debug.Log($"Loading Scene {scene.SceneName()}");
         SceneManager.LoadScene(scene.SceneName());
     }
     public static void RestartScene()
@@ -168,7 +169,10 @@ public static class GameManager
         };
         if (scene == Scene.Level1) return new List<Objective>
         {
-
+            new Objective("Destroy all enemy turrets", "L1.1")
+                .Task(KillCounter.GetFlag("Level1Kills")),
+            new Objective("Land at the enemy base", "L1.2")
+                .Task(TriggerZone.GetFlag("Level1Zone"))
         };
         if (scene == Scene.Level2) return new List<Objective>
         {
@@ -190,13 +194,15 @@ public static class GameManager
     public static PlayerData playerData = null;
 
     // Saves the current SaveFile
-    public static bool SaveData()
+    // If erase is true, this instead erases the current SaveFile and replaces it with a blank one
+    public static bool SaveData(bool erase = false)
     {
         if (playerData == null) return false;
 
         BinaryFormatter formatter = new BinaryFormatter();
         string fullpath = Application.persistentDataPath + playerData.savePath;
         FileStream stream = new FileStream(fullpath, FileMode.Create);
+        if(erase) playerData = new PlayerData(playerData.savePath);
         formatter.Serialize(stream, playerData);
         stream.Close();
         return true;
@@ -256,5 +262,6 @@ public class PlayerData
     public PlayerData(string savePath)
     {
         this.savePath = savePath;
+        weapon1[0] = true;
     }
 }
