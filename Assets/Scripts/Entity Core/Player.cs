@@ -16,6 +16,14 @@ public class Player : Helicopter
     public const float CAM_BLOCKING_TOLERANCE = 0.05f;
     // Targeting max distance
     public const float TARGET_MAX_DIST = 75.0f;
+
+
+    // Inspector items
+    public GameObject weapon1Prefab;
+    public GameObject weapon2Prefab;
+    public GameObject weapon3Prefab;
+
+
     // A ref the this player's camera
     Camera cam;
     // The euler rotational offset of the camera due to player inputs
@@ -30,18 +38,38 @@ public class Player : Helicopter
     // A scalar for how fast the camera zooms in and out
     float camZoomSpeed = 1000.0f;
     // Count of remaining weapons
+    [HideInInspector]
     public int weapon1;
+    [HideInInspector]
     public int weapon2;
+    [HideInInspector]
     public int weapon3;
     // Current weapon
-    public int currWeapon = 0;
+    [HideInInspector]
+    public int currWeapon = 1;
+    // Weapon colldown
+    private float[] weaponCooldowns = new float[3];
+
     // Targeting refs
+    [HideInInspector]
     public GameObject[] enemies = null;
+    [HideInInspector]
     public List<Vector3> targets = null;
+
+    private Transform bulletSpawn;
 
     protected override void Start()
     {
         base.Start();
+
+        // Initialize teams
+        team = Team.Get("Player").SetRel("Enemy", Relationship.HOSTILE);
+        Team.Get("Enemy").SetRel("Player", Relationship.HOSTILE);
+
+        // Lock the mouse cursor
+        GameManager.LockCursor(true);
+
+        // Register the camera
         cam = GetComponentInChildren<Camera>();
         weapon1 = weapon2 = weapon3 = 5;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -52,24 +80,36 @@ public class Player : Helicopter
             cam0Dist = (cam.transform.position - transform.position).magnitude;
         }
         else EntityDebug("Could not find a Camera component in a child GameObject!", DebugType.ERROR);
+
+        // Register bulletSpawn
+        var bulletSpawns = gameObject.FindChildren("bulletSpawn", false, 1);
+        if (bulletSpawns.Count > 0 && bulletSpawns[0] != null)
+        {
+            bulletSpawn = bulletSpawns[0].transform;
+        }
+        else Debug.LogError("Player cannot find bulletSpawn!");
     }
 
     protected override void Update()
     {
         base.Update();
         
-        // Debug commands:
-        if (Input.GetKeyUp(KeyCode.Keypad0))
-        {
-            Debug.Log("Player: Pressed 0, Damaging player");
-            Damaged(null,10);
-        }
-         
         // Movement Input:
         FlyUp(Input.GetAxis("Jump"));
         FlyForward(Input.GetAxis("Vertical"));
         FlyRight(Input.GetAxis("Horizontal"));
         FlyPivot(Input.GetAxis("Strafe"));
+
+        // Firing input:
+        if(Input.GetAxis("Fire1") > 0.1)
+        {
+            PlayerFire();
+        }
+        // Weapon cooldowns
+        for(int i = 0; i < weaponCooldowns.Length; i++)
+        {
+            if(weaponCooldowns[i] > 0) weaponCooldowns[i] -= Time.deltaTime;
+        }
 
         // Pause Key:
         if (Input.GetKeyUp(KeyCode.P))
@@ -136,13 +176,19 @@ public class Player : Helicopter
             targets = visibleEnemies();
         }
     }
+
     private void OnCollisionEnter(Collision col) {
+        SafeCollision safe = col.gameObject?.GetComponent<SafeCollision>();
+        // If the collision is tagged as "safe", don't crash the helicopter
+        if (safe != null) return;
         this.Damaged(null, this.Health);
     } 
+
     public List<Vector3> visibleEnemies() {
         List<Vector3> visible = new List<Vector3>();
         
         foreach(GameObject e in enemies) {
+            if(e==null) continue;
             Vector3 screenPoint = cam.WorldToViewportPoint(e.transform.position);
             float enemyDistance = (transform.position - e.transform.position).magnitude;
 
@@ -152,6 +198,52 @@ public class Player : Helicopter
             }
         }
 
+        // TEMP DEBUG: Prevent the "lock-on" effect, and just leave the crosshairs in the middle of the screen
+        visible.Clear();
+
         return visible;
+    }
+
+    public override void DeathAnimation(bool destroySelf = true)
+    {
+        base.DeathAnimation(false);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject obj = transform.GetChild(i).gameObject;
+            // Ignore the camrea
+            if (obj.GetComponentInChildren<Camera>() != null) continue;
+            // Disable everything else
+            obj.SetActive(false);
+        }
+        GameManager.Lose();
+    }
+
+    private void PlayerFire()
+    {
+        // Check for errors
+        if (bulletSpawn == null) return;
+        GameObject weaponPrefab = currWeapon == 2 ? weapon2Prefab : (currWeapon == 3 ? weapon3Prefab : weapon1Prefab);
+        if(weaponPrefab == null)
+        {
+            Debug.LogError($"Player missing weapon prefab {currWeapon}");
+            return;
+        }
+
+        // Manage cooldowns
+        if (weaponCooldowns[currWeapon] > 0) return;
+        // TODO: Determine cooldown from specific weapon's upgrades
+        weaponCooldowns[currWeapon] = 1.0f;
+
+        // TODO: determine attack power from selected weapon and its upgrades
+        float attackPower = 5.0f;
+
+        GameObject spawned = Instantiate(weaponPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
+        if (spawnedProjectile != null)
+        {
+            spawnedProjectile.owner = this;
+            spawnedProjectile.power = attackPower;
+            spawnedProjectile.explosion = explosionPrefab;
+        }
     }
 }

@@ -11,6 +11,18 @@ public static class GameManager
     public static Scene CurrentScene { get; private set; } = Scene.MainMenu;
     // Current UI panel
     public static GameObject CurrentPanel { get; private set; } = null;
+    // Current HUD
+    public static GameObject HUDPanel
+    {
+        get
+        {
+            GameObject panels = GameObject.Find("Panels");
+            if (panels == null) return null;
+            Transform HUD = panels.transform.GetChild(3);
+            if (HUD == null) return null;
+            return HUD.gameObject;
+        }
+    }
     // A list of the objectives for this level
     private static List<Objective> _sceneObjectives = null;
     public static List<Objective> SceneObjectives 
@@ -63,12 +75,16 @@ public static class GameManager
             CurrentPanel = pausePanel;
             pausePanel.SetActive(true);
             Time.timeScale = 0;
+            SetHUDEnabled(false);
+            LockCursor(false);
         }
         else if (CurrentPanel == pausePanel)
         {
             CurrentPanel = null;
             pausePanel.SetActive(false);
             Time.timeScale = 1;
+            SetHUDEnabled(true);
+            LockCursor(true);
         }
     }
     public static void Win()
@@ -81,6 +97,8 @@ public static class GameManager
             // TODO: Record the player's win and bonus objectives
             // Freeze the game
             Time.timeScale = 0;
+            SetHUDEnabled(false);
+            LockCursor(false);
             // Display win panel
             if (CurrentPanel != null) CurrentPanel.SetActive(false);
             GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
@@ -92,11 +110,24 @@ public static class GameManager
     {
         // Freeze the game
         Time.timeScale = 0;
+        SetHUDEnabled(false);
+        LockCursor(false);
         // Display loose panel
         if (CurrentPanel != null) CurrentPanel.SetActive(false);
         GameObject losePanel = GameObject.Find("Panels").transform.GetChild(1).gameObject;
         CurrentPanel = losePanel;
         losePanel.SetActive(true);
+    }
+    public static void SetHUDEnabled(bool enabled)
+    {
+        if (HUDPanel == null) return;
+        HUDPanel.SetActive(enabled);
+    }
+    // Hides the cursor and locks it into the game
+    public static void LockCursor(bool locked)
+    {
+        Cursor.visible = !locked;
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 
     // Scene controls

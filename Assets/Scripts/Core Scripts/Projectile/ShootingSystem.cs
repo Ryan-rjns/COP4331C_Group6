@@ -13,6 +13,11 @@ public class ShootingSystem : MonoBehaviour
     public List<GameObject> projectileSpawns;
     List<GameObject> m_lastProjectiles = new List<GameObject>();
     float m_fireTimer = 0.0f;
+
+    void Start()
+    {
+        target = GameObject.Find("Player");
+    }
     // Update is called once per frame
     void Update(){
         if(beam && m_lastProjectiles.Count <= 0){

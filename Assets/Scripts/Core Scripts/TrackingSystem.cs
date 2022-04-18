@@ -5,11 +5,15 @@ using UnityEngine;
 public class TrackingSystem : MonoBehaviour
 {
     public float speed = 3.0f;
-    public GameObject m_target;
+    private GameObject m_target;
     Vector3 m_lastKnownPosition = Vector3.zero;
     Quaternion m_lookAtRotation;
 
-    // Update is called once per frame
+    void Start()
+    {
+        m_target = GameObject.Find("Player");
+    }
+
     void Update(){
         if(m_target){
             if (m_lastKnownPosition != m_target.transform.position){

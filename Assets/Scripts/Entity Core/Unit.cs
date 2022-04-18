@@ -12,13 +12,13 @@ public abstract class Unit : Entity
     public float MaxHealth
     {
         get => _maxHealth;
-        private set => _maxHealth = Mathf.Max(value,1);
+        protected set => _maxHealth = Mathf.Max(value,1);
     }
     float _healthLost = 0;
     public float HealthLost
     {
         get => _healthLost;
-        private set => _healthLost = Mathf.Max(value, 0);
+        protected set => _healthLost = Mathf.Max(value, 0);
     }
     public float Health
     {
@@ -80,10 +80,20 @@ public abstract class Unit : Entity
     // Called from an opposing unit or projectile that hit this unit with an attack
     public float Damaged(Unit source, float damage)
     {
-        // If a neutral relationship is attacked, that relationship becomes hostile
-        if (team != null && source.team != null && team != source.team)
+        // Prevent self-harm
+        if (source == this) return 0;
+
+        // Check teams
+        if (team != null && source.team != null)
         {
-            if (team.GetRel(source.team.Name) == Relationship.NEUTRAL)
+            // Prevent friendly fire
+            if(team == source.team || team.GetRel(source.team.Name) == Relationship.FRIENDLY)
+            {
+                return 0;
+            }
+
+            // If a neutral relationship is attacked, that relationship becomes hostile
+            if (team != source.team && team.GetRel(source.team.Name) == Relationship.NEUTRAL)
             {
                 team.SetRel(source.team.Name, Relationship.HOSTILE);
             }
@@ -99,15 +109,15 @@ public abstract class Unit : Entity
     // If source is an enemy, it gets credit for the kill
     public void Killed(Unit source)
     {
-        if (source != null) source.AddKill(team.Name);
+        //if (source != null) source.AddKill(team.Name);
         DeathAnimation();
-        Destroy(this);
     }
     public GameObject explosionPrefab;
     // Child classes can override this and use it to spawn in a seperate, non-unit death animation.
-    public virtual void DeathAnimation() 
+    public virtual void DeathAnimation(bool destroySelf = true) 
     {
         EntityDebug("DEAD");
         Instantiate(explosionPrefab, transform.position, transform.rotation);
+        if(destroySelf) Destroy(gameObject);
     }
 }
