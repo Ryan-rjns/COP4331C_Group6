@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public static class StarLib
@@ -150,6 +151,17 @@ public static class StarLib
     public static List<(RaycastHit hit, GameObject gameObject)> RaycastSearch(Vector3 origin, Vector3 destination,
         System.Func<RaycastHit, GameObject, bool> filter = null, bool searchMultiple = false, bool? parentsWhitelist = null)
         => RaycastSearch(origin, (destination - origin).normalized, (destination - origin).magnitude, filter, searchMultiple, parentsWhitelist);
+
+    // Updates the color of a UI button
+    public static void SetColor(this Button b, Color c)
+    {
+        ColorBlock colorBlock = b.colors;
+        colorBlock.normalColor = c;
+        colorBlock.highlightedColor = c;
+        colorBlock.pressedColor = c;
+        colorBlock.selectedColor = c;
+        b.colors = colorBlock;
+    }
 }
 
 

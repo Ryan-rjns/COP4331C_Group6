@@ -10,8 +10,9 @@ public class Turret : Unit
     public bool trackingPitch = true;
     public float attackPower = 4.0f;
     public float health = 20.0f;
-    public float aggroDist = 15.0f;
     public float rateOfFire = 4.0f;
+    public float bulletSpeed = 5.0f;
+    public float bulletLifetime = 5.0f;
 
     private GameObject player;
     private Transform bulletSpawn;
@@ -21,6 +22,14 @@ public class Turret : Unit
     protected override void Start()
     {
         base.Update();
+
+        // Hard difficulty gives increased health, fire rate, and projectile speed
+        if (GameManager.playerData != null && GameManager.playerData.difficultyHard)
+        {
+            health *= 2.0f;
+            rateOfFire *= 2.0f;
+            bulletSpeed *= 3.0f;
+        }
 
         // Init vars
         MaxHealth = health;
@@ -53,6 +62,7 @@ public class Turret : Unit
 
         // Firing
         float playerDist = (player.transform.position - transform.position).magnitude;
+        float aggroDist = bulletSpeed * bulletLifetime * 0.9f;
         if (cooldown > 0)
         {
             cooldown -= Time.deltaTime;
@@ -67,6 +77,8 @@ public class Turret : Unit
                 spawnedProjectile.owner = this;
                 spawnedProjectile.power = attackPower;
                 spawnedProjectile.explosion = explosionPrefab;
+                spawnedProjectile.StartingVelocity = Vector3.forward * bulletSpeed;
+                spawnedProjectile.Lifetime = bulletLifetime;
             }
         }
     }

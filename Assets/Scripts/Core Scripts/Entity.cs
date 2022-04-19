@@ -12,7 +12,7 @@ public enum DebugType
 // An entity is any "thing" in the world that is dynamic and has some function.
 // All Units, Projectiles, etc. inherit from this class, which provides support for common operations, like movement
 // All Entities should have a Rigidbody component.
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : Signal
 {
     #region Constants
 
@@ -44,7 +44,7 @@ public abstract class Entity : MonoBehaviour
         }
     }
     // All child classes should use base.Update() to make sure that every superclass gets the opportunity to use this function
-    protected virtual void Update() { }
+    protected override void Update() => base.Update();
     // All child classes should use base.FixedUpdate() to make sure that every superclass gets the opportunity to use this function
     protected virtual void FixedUpdate() 
     {
@@ -200,4 +200,8 @@ public abstract class Entity : MonoBehaviour
     }
 
     #endregion
+
+
+    protected bool destroyed = false;
+    public override bool IsSignaled() => destroyed;
 }

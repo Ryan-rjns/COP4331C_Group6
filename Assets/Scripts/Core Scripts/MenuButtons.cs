@@ -17,7 +17,13 @@ public class MenuButtons : MonoBehaviour
     // Button list
     private List<Button> buttonList = new List<Button>();
     // Scene Navigation
-    public void MainMenu() => Scene.MainMenu.LoadScene();
+    public void MainMenu()
+    {
+        // Drop the save file
+        GameManager.ClearData();
+        // And return to the main menu
+        Scene.MainMenu.LoadScene();
+    }
     public void Home() => Scene.Home.LoadScene();
     public void DebugScene() => Scene.DebugScene.LoadScene();
     public void Level1() => Scene.Level1.LoadScene();
@@ -26,6 +32,11 @@ public class MenuButtons : MonoBehaviour
     public void RestartLevel() => GameManager.RestartScene();
     public void Exit() => Application.Quit();
     public void ToggleDifficulty() {
+        if(GameManager.playerData == null)
+        {
+            Debug.LogError("Toggle Difficulty: No save file is loaded!");
+            return;
+        }
         GameManager.playerData.difficultyHard = !GameManager.playerData.difficultyHard;
         difficulty.text = GameManager.playerData.difficultyHard ? "Hard" : "Easy";
     }
@@ -33,12 +44,68 @@ public class MenuButtons : MonoBehaviour
         GameManager.LoadData(saveSlot);
         Home();
     }
+    public void EraseSaveData()
+    {
+        // Overwrite the save file with a blank one
+        GameManager.SaveData(true);
+        // Drop the save file
+        GameManager.ClearData();
+        // And return to the main menu
+        Scene.MainMenu.LoadScene();
+    }
 
     void Start() {
-        if (name.Equals("Money")) {
-            if (GameManager.playerData == null) {
-                return;
+        if (GameManager.playerData == null)
+        {
+            Debug.Log("Menu Start: No save file was found");
+            return;
+        }
+        Debug.Log($"Menu Start: A save file is currently loaded: {GameManager.playerData}");
+        Button myButton = gameObject.GetComponent<Button>();
+
+        // Level Select screen
+        if (name.Equals("Difficulty")) {
+            // Get ref to UI
+            difficulty = gameObject.GetComponentInChildren<Text>();
+            // Set UI text
+            difficulty.text = GameManager.playerData.difficultyHard ? "Hard" : "Easy";
+        }
+        if (myButton != null) 
+        {
+            bool[] levelData = null;
+            bool levelUnlocked = false;
+            if (name.Equals("Level 1"))
+            {
+                levelData = GameManager.playerData.level1;
+                levelUnlocked = true;
             }
+            if (name.Equals("Level 2"))
+            {
+                levelData = GameManager.playerData.level2;
+                levelUnlocked = GameManager.playerData.level1[0];
+            }
+            if (name.Equals("Level 3"))
+            {
+                levelData = GameManager.playerData.level3;
+                levelUnlocked = GameManager.playerData.level2[0];
+            }
+            if (levelData != null)
+            {
+                myButton.interactable = true;
+                if (levelData[1]) myButton.SetColor(Color.green);
+                else if (levelData[0]) myButton.SetColor(Color.blue);
+                else if (levelUnlocked) myButton.SetColor(Color.yellow);
+                else
+                {
+                    myButton.interactable = false;
+                    myButton.SetColor(Color.gray);
+                }
+            }
+        }
+
+        // Upgrades Screen
+        if (name.Equals("Money"))
+        {
             // Get ref to UI
             money = gameObject.GetComponent<Text>();
             // Compute player's money
@@ -46,28 +113,24 @@ public class MenuButtons : MonoBehaviour
             // Get buttons gameobject
             GameObject buttons = GameObject.Find("Buttons");
             // Add buttons to button list
-            foreach(Transform child in buttons.transform) {
-                buttonList.Add(child.GetComponent<Button>());
+            foreach (Transform child in buttons.transform)
+            {
+                if(child == null) continue;
+                Button button = child.GetComponent<Button>();
+                if(button == null || buttonList.Contains(button)) continue;
+                buttonList.Add(button);
             }
             // Disable bought weapons/upgrades
-            for(int i = 0; i < 3; i++) {
-                if(GameManager.playerData.weapon1[i]) buttonList[i].interactable = false; 
-                if(GameManager.playerData.weapon2[i]) buttonList[i + 3].interactable = false; 
-                if(GameManager.playerData.weapon3[i]) buttonList[i + 6].interactable = false; 
-            }
-        }
-        if (name.Equals("Difficulty")) {
-            if (GameManager.playerData == null) {
-                return;
-            }
-            // Get ref to UI
-            difficulty = gameObject.GetComponentInChildren<Text>();
-            // Set UI text
-            if(GameManager.playerData.difficultyHard) {
-                difficulty.text = "Hard";
+            for (int i = 0; i < 3; i++)
+            {
+                if (GameManager.playerData.weapon1[i]) buttonList[i].interactable = false;
+                if (GameManager.playerData.weapon2[i]) buttonList[i + 3].interactable = false;
+                if (GameManager.playerData.weapon3[i]) buttonList[i + 6].interactable = false;
             }
         }
     }
+
+
     // Returns current player's money
     public void getMoney() {
         money.text = "Money: " + GameManager.playerData.money.ToString();

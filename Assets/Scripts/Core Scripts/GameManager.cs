@@ -23,40 +23,6 @@ public static class GameManager
             return HUD.gameObject;
         }
     }
-    // A list of the objectives for this level
-    private static List<Objective> _sceneObjectives = null;
-    public static List<Objective> SceneObjectives 
-    {
-        get => _sceneObjectives; 
-        private set
-        {
-            // If the old list exists, disable all of its contents and clear it
-            if(_sceneObjectives != null)
-            {
-                foreach (Objective o in _sceneObjectives) o?.Disable();
-                _sceneObjectives.Clear();
-            }
-            // Replace the old list with the new list
-            _sceneObjectives = value;
-            // Activate the first Objective in the new list (if there is one)
-            CurrObjective = 0;
-        } 
-    }
-    // THe current objective in this level that is active
-    private static int _currObjective = 0;
-    public static int CurrObjective
-    {
-        get => _currObjective;
-        private set
-        {
-            // If the old objective was valid, disable it.
-            if (_currObjective < (SceneObjectives?.Count ?? -1)) SceneObjectives[_currObjective].Disable();
-            // Update the current index
-            _currObjective = value;
-            // If the new objective index is valid, enable it
-            if (_currObjective < (SceneObjectives?.Count ?? -1)) SceneObjectives[_currObjective].Enable();
-        }
-    }
 
     public static Player GetPlayer()
     {
@@ -89,22 +55,44 @@ public static class GameManager
     }
     public static void Win()
     {
-        // Move on to the next objective
-        CurrObjective++;
-        // If there is no next objective, then the player won this level
-        if(CurrObjective >= SceneObjectives.Count)
+        // Manage save data
+        if(playerData != null)
         {
-            // TODO: Record the player's win and bonus objectives
-            // Freeze the game
-            Time.timeScale = 0;
-            SetHUDEnabled(false);
-            LockCursor(false);
-            // Display win panel
-            if (CurrentPanel != null) CurrentPanel.SetActive(false);
-            GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
-            CurrentPanel = winPanel;
-            winPanel.SetActive(true);
+            // Record the player's win
+            bool firstNormalWin = false;
+            bool firstHardWin = false;
+            bool[] levelData = null;
+            if (CurrentScene == Scene.Level1) levelData = playerData.level1;
+            if (CurrentScene == Scene.Level2) levelData = playerData.level2;
+            if (CurrentScene == Scene.Level3) levelData = playerData.level3;
+            if (levelData != null)
+            {
+                // Level was won
+                if (!levelData[0]) firstNormalWin = true;
+                levelData[0] = true;
+                // Level was won in hard mode
+                if (playerData.difficultyHard)
+                {
+                    if (!levelData[1]) firstHardWin = true;
+                    levelData[1] = true;
+                }
+            }
+            // Give the player money
+            if (firstNormalWin) playerData.money += 300;
+            if (firstHardWin) playerData.money += 300;
+            // Save the game
+            SaveData();
         }
+
+        // Freeze the game
+        Time.timeScale = 0;
+        SetHUDEnabled(false);
+        LockCursor(false);
+        // Display win panel
+        if (CurrentPanel != null) CurrentPanel.SetActive(false);
+        GameObject winPanel = GameObject.Find("Panels").transform.GetChild(0).gameObject;
+        CurrentPanel = winPanel;
+        winPanel.SetActive(true);
     }
     public static void Lose()
     {
@@ -149,40 +137,12 @@ public static class GameManager
 
         // Setup the new scene
         CurrentScene = scene;
-        SceneObjectives = scene.CreateObjectives();
-        Debug.Log($"Loading Scene {scene.SceneName()}");
+        //Debug.Log($"Loading Scene {scene.SceneName()}");
         SceneManager.LoadScene(scene.SceneName());
     }
     public static void RestartScene()
     {
         CurrentScene.LoadScene();
-    }
-    public static List<Objective> CreateObjectives(this Scene scene)
-    {
-        if (scene == Scene.MainMenu) return null;
-        if (scene == Scene.Home) return null;
-        if (scene == Scene.DebugScene) return new List<Objective>
-        {
-            new Objective("DebugObjective1", "Debug trigger zone test")
-                .Task(TriggerZone.GetFlag("DebugTrigger1"))
-            ,new Objective("DebugObjective2", "Debug kill 2 red enemy helicopters")
-        };
-        if (scene == Scene.Level1) return new List<Objective>
-        {
-            new Objective("Destroy all enemy turrets", "L1.1")
-                .Task(KillCounter.GetFlag("Level1Kills")),
-            new Objective("Land at the enemy base", "L1.2")
-                .Task(TriggerZone.GetFlag("Level1Zone"))
-        };
-        if (scene == Scene.Level2) return new List<Objective>
-        {
-
-        };
-        if (scene == Scene.Level3) return new List<Objective>
-        {
-
-        };
-        return null;
     }
     // Function to update Objectives UI
     public static void DisplayTask(int index, string task) {
@@ -250,10 +210,10 @@ public class PlayerData
 {
     public string savePath = "/DefaultPath.savefile";
     public int money = 1000;
-    // The first index is whether or not the level is cleared. The rest are bonus objectives.
-    public bool[] level1 = new bool[3];
-    public bool[] level2 = new bool[3];
-    public bool[] level3 = new bool[3];
+    // The first index is whether or not the level is cleared in normal mode. The 2nd is for hard mode.
+    public bool[] level1 = new bool[2];
+    public bool[] level2 = new bool[2];
+    public bool[] level3 = new bool[2];
     // Each index corresponds to an upgrade button (top to bottom, for each upgrade)
     public bool[] weapon1 = new bool[3];
     public bool[] weapon2 = new bool[3];
@@ -265,5 +225,12 @@ public class PlayerData
     {
         this.savePath = savePath;
         weapon1[0] = true;
+    }
+
+    public override string ToString()
+    {
+        return $"PlayerData:[path:{savePath},money:{money},difficulty:{difficultyHard},"
+            + $"level1:[{level1[0]},{level1[1]}],level2:[{level2[0]},{level2[1]}],level3:[{level3[0]},{level3[1]}],\n"
+            + $"weapon1:[{weapon1[0]},{weapon1[1]},{weapon1[2]}],weapon2:[{weapon2[0]},{weapon2[1]},{weapon2[2]}],weapon3:[{weapon3[0]},{weapon3[1]},{weapon3[2]}]]";
     }
 }

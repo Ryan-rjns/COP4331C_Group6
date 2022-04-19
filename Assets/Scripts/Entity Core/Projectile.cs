@@ -18,6 +18,8 @@ public class Projectile : Entity
     [HideInInspector]
     public GameObject explosion;
 
+    private bool exploded = false;
+
     protected override void Start()
     {
         base.Start();
@@ -57,18 +59,26 @@ public class Projectile : Entity
             }
         }
 
-        
-        
-        if(explosion != null) Instantiate(explosion, transform.position, transform.rotation);
+        // Prevents glitch where damage is dealt multiple times
+        if (exploded) return;
+        exploded = true;
+
+        if (explosion != null) Instantiate(explosion, transform.position, transform.rotation);
 
         // Damage any units in the explosion radius
         // (The Unit class will prevent friendly fire)
+        List<Unit> hitUnits = new List<Unit>();
         Collider[] hits = Physics.OverlapSphere(transform.position, ExplosionRadius);
         foreach(Collider c in hits)
         {
             if(c == null || c.gameObject == null) continue;
             Unit u = c.gameObject.GetComponentInParent<Unit>();
-            if(u != null) u.Damaged(owner, power);
+            // Make sure that each unit is not hit more than once
+            if (u != null && !hitUnits.Contains(u))
+            {
+                u.Damaged(owner, power);
+                hitUnits.Add(u);
+            }
         }
         // Destroy this missile
         Destroy(gameObject);

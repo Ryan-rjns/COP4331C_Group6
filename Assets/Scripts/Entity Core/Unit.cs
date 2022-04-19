@@ -76,7 +76,6 @@ public abstract class Unit : Entity
         teamKills.Add(teamName, currKills);
     }
 
-
     // Called from an opposing unit or projectile that hit this unit with an attack
     public float Damaged(Unit source, float damage)
     {
@@ -84,7 +83,7 @@ public abstract class Unit : Entity
         if (source == this) return 0;
 
         // Check teams
-        if (team != null && source.team != null)
+        if (source != null && team != null && source.team != null)
         {
             // Prevent friendly fire
             if(team == source.team || team.GetRel(source.team.Name) == Relationship.FRIENDLY)
@@ -105,11 +104,12 @@ public abstract class Unit : Entity
         return finalDamage;
     }
 
-    // Destroys this unit, called when this unit's health drops below 0
+    // Deactivates this unit, called when this unit's health drops below 0
     // If source is an enemy, it gets credit for the kill
     public void Killed(Unit source)
     {
-        //if (source != null) source.AddKill(team.Name);
+        Debug.Log($"Unit {gameObject} was destroyed");
+        destroyed = true;
         DeathAnimation();
     }
     public GameObject explosionPrefab;
@@ -118,6 +118,6 @@ public abstract class Unit : Entity
     {
         //EntityDebug("DEAD");
         Instantiate(explosionPrefab, transform.position, transform.rotation);
-        if(destroySelf) Destroy(gameObject);
+        if(destroySelf) gameObject.SetActive(false);
     }
 }

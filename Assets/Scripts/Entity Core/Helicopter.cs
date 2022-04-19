@@ -22,12 +22,15 @@ public abstract class Helicopter : Unit
     const float TILT_TIME = 0.5f;
     // How far away from the ground the helicopter has to be before it is considered "flying"
     const float GROUND_DISTANCE = 0.30f;
-    // Player height limit
-    const float HEIGHT_LIMIT = 10.0f;
+    
+    // Helicopter height limit
+    public float heightLimit = 10.0f;
+    // Helicopter Max Speed
+    public float maxSpeed = 5.0f;
 
 
-    bool grounded;
-    bool flying;
+    protected bool grounded;
+    protected bool flying;
     Vector3 InputVelocity = Vector3.zero;
     // 
     float propellerSpeed = 0;
@@ -37,7 +40,7 @@ public abstract class Helicopter : Unit
     {
         base.Start();
         // The default speed and accelration for a helicopter:
-        MaxSpeed = 5.0f;
+        MaxSpeed = maxSpeed;
         AccelTime = 1.0f;
         // For example: move forwards at max speed:
         TargetVelocity = ScaleVelocity(Vector3.forward);
@@ -94,7 +97,7 @@ public abstract class Helicopter : Unit
     {
         // When fully hgrounded, the helicopter can only fly up
         if (grounded && speed <= 0) speed = 0;
-        if (transform.position.y >= HEIGHT_LIMIT && speed >= 0) speed = -1;
+        if (transform.position.y >= heightLimit && speed >= 0) speed = -1;
         else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.y = speed;
     }
