@@ -13,6 +13,7 @@ public class MenuButtons : MonoBehaviour
     // UI refs
     private Text money;
     private Text feedback;
+    private Text difficulty;
     // Button list
     private List<Button> buttonList = new List<Button>();
     // Scene Navigation
@@ -24,8 +25,11 @@ public class MenuButtons : MonoBehaviour
     public void Level3() => Scene.Level3.LoadScene();
     public void RestartLevel() => GameManager.RestartScene();
     public void Exit() => Application.Quit();
-    public void LoadSaveSlot(int saveSlot)
-    {
+    public void ToggleDifficulty() {
+        GameManager.playerData.difficultyHard = !GameManager.playerData.difficultyHard;
+        difficulty.text = GameManager.playerData.difficultyHard ? "Hard" : "Easy";
+    }
+    public void LoadSaveSlot(int saveSlot) {
         GameManager.LoadData(saveSlot);
         Home();
     }
@@ -50,6 +54,17 @@ public class MenuButtons : MonoBehaviour
                 if(GameManager.playerData.weapon1[i]) buttonList[i].interactable = false; 
                 if(GameManager.playerData.weapon2[i]) buttonList[i + 3].interactable = false; 
                 if(GameManager.playerData.weapon3[i]) buttonList[i + 6].interactable = false; 
+            }
+        }
+        if (name.Equals("Difficulty")) {
+            if (GameManager.playerData == null) {
+                return;
+            }
+            // Get ref to UI
+            difficulty = gameObject.GetComponentInChildren<Text>();
+            // Set UI text
+            if(GameManager.playerData.difficultyHard) {
+                difficulty.text = "Hard";
             }
         }
     }

@@ -65,7 +65,7 @@ public class Player : Helicopter
 
         // Init vars
         currWeapon = 1;
-
+        
         // Initialize teams
         team = Team.Get("Player").SetRel("Enemy", Relationship.HOSTILE);
         Team.Get("Enemy").SetRel("Player", Relationship.HOSTILE);
