@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3694956624867051425}
-  - component: {fileID: 6176594961824458623}
   - component: {fileID: 6176594961824458593}
+  - component: {fileID: 7004224194154955945}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Untagged
@@ -33,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6176594961824458623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6580123647802064781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e7c794741bad44890a47e588dcb232, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &6176594961824458593
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -61,6 +49,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7004224194154955945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580123647802064781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f019a3b604f4b2543b3833b1eab28499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableOnFinish: 0
+  StartingVelocity: {x: 0, y: 0, z: 10}
+  StartingAccelTime: 1
+  ExplosionRadius: 1
+  Lifetime: 5
+  owner: {fileID: 0}
+  power: 0
+  explosion: {fileID: 0}
 --- !u!1001 &6176594961615597746
 PrefabInstance:
   m_ObjectHideFlags: 0

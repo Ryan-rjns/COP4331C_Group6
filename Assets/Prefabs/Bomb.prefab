@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5092406462544457505}
   - component: {fileID: 5776958577513441364}
   - component: {fileID: 932581504708237404}
+  - component: {fileID: 1013686419450621165}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -62,6 +63,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1013686419450621165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4933017324661398506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f019a3b604f4b2543b3833b1eab28499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableOnFinish: 0
+  StartingVelocity: {x: 0, y: -5, z: 0}
+  StartingAccelTime: 1
+  ExplosionRadius: 1
+  Lifetime: 5
+  owner: {fileID: 0}
+  power: 0
+  explosion: {fileID: 0}
 --- !u!1001 &8305865438023358510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +142,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 09b3f4a0570f579cebe5ab866a4a70c9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5193a2096f4df794189172120af6a9be, type: 2}
     - target: {fileID: 919132149155446097, guid: 09b3f4a0570f579cebe5ab866a4a70c9, type: 3}
       propertyPath: m_Name
       value: bomb

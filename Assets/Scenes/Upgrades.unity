@@ -393,7 +393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2x Speed                (300)
+  m_Text: +2 Missiles                (300)
 --- !u!222 &235235210
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1234,7 +1234,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2x Speed                (300)
+  m_Text: +3 Bombs                (300)
 --- !u!222 &892505286
 CanvasRenderer:
   m_ObjectHideFlags: 0

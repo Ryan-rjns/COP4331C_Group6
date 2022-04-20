@@ -6420,7 +6420,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -6583,6 +6583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b7dd66effd44741b8b3e0a9f9eecac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnFinish: 0
   explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
   heightLimit: 10
   maxSpeed: 10
