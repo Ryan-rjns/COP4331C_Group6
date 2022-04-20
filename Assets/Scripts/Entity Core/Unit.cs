@@ -108,7 +108,7 @@ public abstract class Unit : Entity
     // If source is an enemy, it gets credit for the kill
     public void Killed(Unit source)
     {
-        Debug.Log($"Unit {gameObject} was destroyed");
+        //Debug.Log($"Unit {gameObject} was destroyed");
         destroyed = true;
         DeathAnimation();
     }

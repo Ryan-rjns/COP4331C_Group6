@@ -48,8 +48,10 @@ public class Player : Helicopter
     // Current weapon
     [HideInInspector]
     public int currWeapon = 1;
-    // Weapon colldown
-    private float[] weaponCooldowns = new float[3];
+    // Weapon ammo (i=0 is ignored, since weapon1 has infinite ammo)
+    private float[] weaponAmmo = new float[3];
+    // Cooldown until weapon can next fire (prevents spam)
+    private float weaponCooldown = 0.0f;
 
     // Targeting refs
     [HideInInspector]
@@ -67,6 +69,16 @@ public class Player : Helicopter
         // Init vars
         currWeapon = 1;
         meshScale = (transform.localScale.x + transform.localScale.y + transform.localScale.z) / 3.0f;
+
+        // Determine weapon ammo
+        if(GameManager.playerData != null)
+        {
+            weaponAmmo[0] = 99999;
+            weaponAmmo[1] = 2;
+            weaponAmmo[2] = 3;
+            if(StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(2))) weaponAmmo[1] += 2;
+            if (StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(3))) weaponAmmo[2] += 2;
+        }
         
         // Initialize teams
         team = Team.Get("Player").SetRel("Enemy", Relationship.HOSTILE);
@@ -111,10 +123,7 @@ public class Player : Helicopter
             PlayerFire();
         }
         // Weapon cooldowns
-        for(int i = 0; i < weaponCooldowns.Length; i++)
-        {
-            if(weaponCooldowns[i] > 0) weaponCooldowns[i] -= Time.deltaTime;
-        }
+        if (weaponCooldown > 0) weaponCooldown -= Time.deltaTime;
 
         // Pause Key:
         if (Input.GetKeyUp(KeyCode.P))
@@ -250,22 +259,22 @@ public class Player : Helicopter
             return;
         }
 
-        // Check cooldown
-        if (weaponCooldowns[currWeapon-1] > 0) return;
+        // Check cooldown and ammo
+        if (weaponCooldown > 0) return;
+        if (currWeapon != 1)
+        {
+            if (currWeapon < 0 || currWeapon >= weaponAmmo.Length || weaponAmmo[currWeapon - 1] <= 0) return;
+            weaponAmmo[currWeapon - 1] -= 1;
+        }
+        if(currWeapon == 1 && StarLib.SelectF(2, false, GameManager.playerData?.GetWeapon(1))) weaponCooldown = 0.5f;
+        else weaponCooldown = 1.0f;
 
-        
-        float attackPower = 5.0f;
+
+        float attackPower = (currWeapon - 1).SelectF(0.0f, 5.0f, 20.0f, 15.0f);
+        if (StarLib.SelectF(1, false, GameManager.playerData?.GetWeapon(currWeapon))) attackPower *= 2.0f;
         Vector3 spawnPoint = bulletSpawn.position;
         Quaternion spawnRotation = bulletSpawn.rotation;
-
-        if(currWeapon == 1)
-        {
-            // TODO: Determine cooldown and attack power from specific weapon's upgrades
-            weaponCooldowns[currWeapon-1] = 1.0f;
-            attackPower = 5.0f;
-            if(currentCam == 1) spawnRotation = cam.transform.rotation;
-        }
-        
+        if (currentCam == 1) spawnRotation = cam.transform.rotation;
 
         GameObject spawned = Instantiate(weaponPrefab, spawnPoint, spawnRotation);
         Projectile spawnedProjectile = spawned.GetComponent<Projectile>();

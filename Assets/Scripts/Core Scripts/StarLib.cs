@@ -146,7 +146,7 @@ public static class StarLib
         // Return however many results were found. If no results were found then the List is just empty.
         return results;
     }
-    
+
     // An override of RaycastSearch(Vector3 origin, Vector3 direction, float maxDistance,...). See the original for details
     public static List<(RaycastHit hit, GameObject gameObject)> RaycastSearch(Vector3 origin, Vector3 destination,
         System.Func<RaycastHit, GameObject, bool> filter = null, bool searchMultiple = false, bool? parentsWhitelist = null)
@@ -162,12 +162,32 @@ public static class StarLib
         colorBlock.selectedColor = c;
         b.colors = colorBlock;
     }
+
+    // Safely select an item from an array.
+    // On success, val = the item in the array, and success = true
+    // If index is invalid, val = first element in the array, and success = false
+    // If array is null, val = default(T), and success = false
+    public static (T val, bool success) Select<T>(this int index, params T[] array)
+    {
+        if (array == null || array.Length <= 0) return (default(T), false);
+        if (index < 0 || index >= array.Length) return (array[0], false);
+        return (array[index], true);
+    }
+    // Safely select an item from an array, with a fail case
+    // On success, returns the item in the array
+    // If index or array is invalid, returns failCase
+    public static T SelectF<T>(this int index, T failCase, params T[] array)
+    {
+        var (val, success) = Select(index, array);
+        if (!success) return failCase;
+        return val;
+    }
 }
 
 
 
-// A logic gate that can be applied to a list of booleans
-public enum LogicGate
+    // A logic gate that can be applied to a list of booleans
+    public enum LogicGate
 {
     AND,
     OR,

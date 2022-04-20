@@ -4964,9 +4964,9 @@ MonoBehaviour:
   explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
   heightLimit: 9
   maxSpeed: 5
-  weapon1Prefab: {fileID: 6310979295649777473, guid: 1d38e2f381cdf18b9b6306e9bc5b5c75, type: 3}
-  weapon2Prefab: {fileID: 0}
-  weapon3Prefab: {fileID: 0}
+  weapon1Prefab: {fileID: 3062392037750208990, guid: 2094baeedd48cb841a69ae95d23d895d, type: 3}
+  weapon2Prefab: {fileID: 4933017324661398506, guid: d465c9c895e270498b3e74e4dd90a491, type: 3}
+  weapon3Prefab: {fileID: 6580123647802064781, guid: 7e7e0ec90745c2d4dac7157fc12a0f2e, type: 3}
   currentCam: 0
   weapon1: 0
   weapon2: 0
@@ -4998,7 +4998,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127746181}
   m_LocalRotation: {x: -0, y: -0.7184789, z: -0, w: 0.6955488}
-  m_LocalPosition: {x: -0.61, y: 4.71, z: 68.71}
+  m_LocalPosition: {x: -0.14, y: 4.368, z: 68.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 106145995}

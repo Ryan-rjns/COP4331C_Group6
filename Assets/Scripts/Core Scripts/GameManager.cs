@@ -227,10 +227,24 @@ public class PlayerData
         weapon1[0] = true;
     }
 
+    public bool[] GetLevel(int number)
+    {
+        var (val, success) = (number  - 1).Select(level1, level2, level3);
+        if (!success) return null;
+        return val;
+    }
+    public bool[] GetWeapon(int number)
+    {
+        var (val, success) = (number - 1).Select(weapon1, weapon2, weapon3);
+        if (!success) return null;
+        return val;
+    }
+
     public override string ToString()
     {
         return $"PlayerData:[path:{savePath},money:{money},difficulty:{difficultyHard},"
             + $"level1:[{level1[0]},{level1[1]}],level2:[{level2[0]},{level2[1]}],level3:[{level3[0]},{level3[1]}],\n"
             + $"weapon1:[{weapon1[0]},{weapon1[1]},{weapon1[2]}],weapon2:[{weapon2[0]},{weapon2[1]},{weapon2[2]}],weapon3:[{weapon3[0]},{weapon3[1]},{weapon3[2]}]]";
     }
+    
 }
