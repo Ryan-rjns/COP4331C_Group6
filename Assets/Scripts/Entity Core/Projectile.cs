@@ -23,8 +23,15 @@ public class Projectile : Entity
     protected override void Start()
     {
         base.Start();
-        TargetVelocity = transform.rotation * StartingVelocity;
+        SetProjectileVelocity(StartingVelocity);
         AccelTime = StartingAccelTime;
+    }
+
+    public void SetProjectileVelocity(Vector3 v)
+    {
+        MaxSpeed = v.magnitude;
+        StartingVelocity = v;
+        TargetVelocity = transform.rotation * StartingVelocity;
     }
 
     protected override void Update()
@@ -32,6 +39,9 @@ public class Projectile : Entity
         base.Update();
         Lifetime -= Time.deltaTime;
         if (Lifetime <= 0) Collision(null);
+
+        
+        Debug.Log($"Projectile: Target: {TargetVelocity.magnitude}, Current: {Velocity.magnitude}, Max: {MaxSpeed}, AccelTime: {AccelTime}, Accel: {Acceleration}");
     }
 
     public void OnTriggerEnter(Collider other)

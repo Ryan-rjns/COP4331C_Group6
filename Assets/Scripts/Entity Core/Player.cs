@@ -22,6 +22,7 @@ public class Player : Helicopter
     public GameObject weapon1Prefab;
     public GameObject weapon2Prefab;
     public GameObject weapon3Prefab;
+    public float bulletSpeed = 15.0f;
 
 
     // A ref the this player's camera
@@ -277,13 +278,14 @@ public class Player : Helicopter
         if (currentCam == 1) spawnRotation = cam.transform.rotation;
 
         GameObject spawned = Instantiate(weaponPrefab, spawnPoint, spawnRotation);
+        spawned.transform.localScale = transform.localScale;
         Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
         if (spawnedProjectile != null)
         {
             spawnedProjectile.owner = this;
             spawnedProjectile.power = attackPower;
             spawnedProjectile.explosion = explosionPrefab;
-            spawnedProjectile.StartingVelocity = Vector3.forward * 15;
+            spawnedProjectile.SetProjectileVelocity(Vector3.forward * bulletSpeed);
         }
     }
 }

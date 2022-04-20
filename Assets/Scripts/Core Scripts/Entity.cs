@@ -105,7 +105,7 @@ public abstract class Entity : Signal
     public Vector3 TargetVelocity
     {
         get => _targetVelocity;
-        protected set => _targetVelocity = Vector3.ClampMagnitude(value, MaxSpeed);
+        set => _targetVelocity = Vector3.ClampMagnitude(value, MaxSpeed);
     }
 
     // The actual velocity (in m/s) of this Entity (Read-Only).

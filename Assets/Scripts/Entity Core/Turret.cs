@@ -71,13 +71,14 @@ public class Turret : Unit
         {
             cooldown = rateOfFire;
             GameObject spawned = Instantiate(projectile, bulletSpawn.position, bulletSpawn.rotation);
+            spawned.transform.localScale = transform.localScale;
             Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
             if(spawnedProjectile != null)
             {
                 spawnedProjectile.owner = this;
                 spawnedProjectile.power = attackPower;
                 spawnedProjectile.explosion = explosionPrefab;
-                spawnedProjectile.StartingVelocity = Vector3.forward * bulletSpeed;
+                spawnedProjectile.SetProjectileVelocity(Vector3.forward * bulletSpeed);
                 spawnedProjectile.Lifetime = bulletLifetime;
             }
         }
