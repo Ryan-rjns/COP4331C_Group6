@@ -186,6 +186,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (9)
@@ -583,6 +591,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (3)
@@ -974,6 +990,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret
@@ -1142,6 +1166,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230211245}
   m_CullTransparentMesh: 1
+--- !u!114 &236278434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3150121439406509386, guid: c6d546235d09c074d9e502d115318a35, type: 3}
+  m_PrefabInstance: {fileID: 2007875203}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb046d92895cb724cafa028838d31128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &249324544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,6 +1533,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (4)
@@ -1587,6 +1630,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -1839,6 +1890,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -2409,6 +2468,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 978446723}
+  - {fileID: 876917821}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2880,6 +2940,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (14)
@@ -2964,6 +3032,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -3241,6 +3317,54 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &876917820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 876917821}
+  - component: {fileID: 876917822}
+  m_Layer: 0
+  m_Name: WinCon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &876917821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876917820}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -208.70898, y: -64.15419, z: -144.09668}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 702329724}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876917822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876917820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b69323710847984abfa520f1cade01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableOnFinish: 0
+  signals:
+  - {fileID: 236278434}
+  displayName: Land at the goal
+  objectiveSlot: 2
 --- !u!1001 &879251556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3303,6 +3427,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -4141,6 +4273,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (2)
@@ -4465,6 +4605,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (6)
@@ -4703,6 +4851,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -5424,6 +5580,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (8)
@@ -5839,6 +6003,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
@@ -7076,6 +7248,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
       value: Turret (7)
@@ -7661,6 +7841,14 @@ PrefabInstance:
     - target: {fileID: 1318622300293095336, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247032204286422757, guid: 16c390f808ace8213a733514050b3399, type: 3}
+      propertyPath: bulletLifetime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5995764509887596397, guid: 16c390f808ace8213a733514050b3399, type: 3}
       propertyPath: m_Name
