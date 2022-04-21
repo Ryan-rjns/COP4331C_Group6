@@ -262,9 +262,7 @@ public class MenuButtons : MonoBehaviour
         if(success == 1) {
             // Disable button
             b.interactable = false;
-            string purchaseName = b.name;
-            if(buttonText != null) purchaseName = buttonText.text;
-            feedback.text = "Purchased " + purchaseName + "!";
+            feedback.text = "Purchase Successful!";
         } else if(success == 2) {
             feedback.text = "You do not have that weapon!";
         } else {

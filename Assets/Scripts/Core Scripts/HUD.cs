@@ -68,9 +68,9 @@ public class HUD : MonoBehaviour
             // Display weapon highlight
             if(currPlayer.currWeapon != 0) {
                 weaponHighlight.enabled = true;
-                if(currPlayer.currWeapon == 1) weaponHighlight.rectTransform.anchoredPosition = new Vector2(300, -170);
-                if(currPlayer.currWeapon == 2) weaponHighlight.rectTransform.anchoredPosition = new Vector2(340, -170);
-                if(currPlayer.currWeapon == 3) weaponHighlight.rectTransform.anchoredPosition = new Vector2(380, -170);
+                if(currPlayer.currWeapon == 1) weaponHighlight.rectTransform.anchoredPosition = new Vector2(300, -190);
+                if(currPlayer.currWeapon == 2) weaponHighlight.rectTransform.anchoredPosition = new Vector2(340, -190);
+                if(currPlayer.currWeapon == 3) weaponHighlight.rectTransform.anchoredPosition = new Vector2(380, -190);
             }
             // Display crosshair
             if(currPlayer.currentCam == 1) {
