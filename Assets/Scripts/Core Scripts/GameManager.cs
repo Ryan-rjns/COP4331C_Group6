@@ -192,6 +192,18 @@ public static class GameManager
         SaveData();
         playerData = null;
     }
+
+    public static bool IsPlayInEditor()
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+            case RuntimePlatform.LinuxEditor:
+            case RuntimePlatform.OSXEditor:
+                return true;
+        }
+        return false;
+    }
 }
 
 public enum Scene
@@ -209,7 +221,7 @@ public enum Scene
 public class PlayerData
 {
     public string savePath = "/DefaultPath.savefile";
-    public int money = 1000;
+    public int money = 0;
     // The first index is whether or not the level is cleared in normal mode. The 2nd is for hard mode.
     public bool[] level1 = new bool[2];
     public bool[] level2 = new bool[2];
@@ -246,5 +258,4 @@ public class PlayerData
             + $"level1:[{level1[0]},{level1[1]}],level2:[{level2[0]},{level2[1]}],level3:[{level3[0]},{level3[1]}],\n"
             + $"weapon1:[{weapon1[0]},{weapon1[1]},{weapon1[2]}],weapon2:[{weapon2[0]},{weapon2[1]},{weapon2[2]}],weapon3:[{weapon3[0]},{weapon3[1]},{weapon3[2]}]]";
     }
-    
 }

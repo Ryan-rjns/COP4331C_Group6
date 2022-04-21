@@ -19,7 +19,7 @@ public class Player : Helicopter
 
     public const float BASE_POWER_BULLET = 5.0f;
     public const float BASE_POWER_BOMB = 20.0f;
-    public const float BASE_POWER_MISSILE = 15.0f;
+    public const float BASE_POWER_MISSILE = 20.0f;
 
     // Inspector items
     public GameObject weapon1Prefab;
@@ -70,11 +70,13 @@ public class Player : Helicopter
         // Determine weapon ammo
         if(GameManager.playerData != null)
         {
+            // Base ammo for each weapon
             weaponAmmo[0] = 99999;
-            weaponAmmo[1] = 2;
+            weaponAmmo[1] = 5;
             weaponAmmo[2] = 3;
-            if(StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(2))) weaponAmmo[1] += 2;
-            if (StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(3))) weaponAmmo[2] += 2;
+            // Improved ammo for each weapon
+            if(StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(2))) weaponAmmo[1] *= 2;
+            if (StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(3))) weaponAmmo[2] *= 2;
         }
         
         // Initialize teams
@@ -106,6 +108,14 @@ public class Player : Helicopter
     protected override void Update()
     {
         base.Update();
+
+        // Debug Cheat code: "Win" the current level
+        // (Disabled for the .exe project build)
+        if(GameManager.IsPlayInEditor() && Input.GetKeyUp(KeyCode.Equals))
+        {
+            GameManager.Win();
+        }
+
         
         // Movement Input:
         FlyUp(Input.GetAxis("Jump"));
@@ -279,7 +289,7 @@ public class Player : Helicopter
         else weaponCooldown = 1.0f;
 
 
-        float attackPower = (currWeapon - 1).SelectF(0.0f, 5.0f, 20.0f, 15.0f);
+        float attackPower = (currWeapon - 1).SelectF(0.0f, BASE_POWER_BULLET, BASE_POWER_BULLET, BASE_POWER_MISSILE);
         if (StarLib.SelectF(1, false, GameManager.playerData?.GetWeapon(currWeapon))) attackPower *= 2.0f;
         Vector3 spawnPoint = bulletSpawn.position;
         Quaternion spawnRotation = bulletSpawn.rotation;

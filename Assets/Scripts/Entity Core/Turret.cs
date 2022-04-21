@@ -33,7 +33,7 @@ public class Turret : Unit
 
         // Init vars
         MaxHealth = health;
-        cooldown = rateOfFire;
+        cooldown = rateOfFire * Random.Range(0.8f, 1.2f);
 
         // Register player
         player = GameObject.Find("Player");
@@ -69,7 +69,7 @@ public class Turret : Unit
         }
         else if (playerDist <= aggroDist)
         {
-            cooldown = rateOfFire;
+            cooldown = rateOfFire * Random.Range(0.8f,1.2f);
             GameObject spawned = Instantiate(projectile, bulletSpawn.position, bulletSpawn.rotation);
             spawned.transform.localScale = transform.localScale;
             Projectile spawnedProjectile = spawned.GetComponent<Projectile>();
