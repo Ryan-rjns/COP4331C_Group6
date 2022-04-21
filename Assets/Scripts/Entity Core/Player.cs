@@ -18,7 +18,7 @@ public class Player : Helicopter
     public const float TARGET_MAX_DIST = 75.0f;
 
     public const float BASE_POWER_BULLET = 5.0f;
-    public const float BASE_POWER_BOMB = 20.0f;
+    public const float BASE_POWER_BOMB = 30.0f;
     public const float BASE_POWER_MISSILE = 20.0f;
 
     // Inspector items
@@ -289,7 +289,7 @@ public class Player : Helicopter
         else weaponCooldown = 1.0f;
 
 
-        float attackPower = (currWeapon - 1).SelectF(0.0f, BASE_POWER_BULLET, BASE_POWER_BULLET, BASE_POWER_MISSILE);
+        float attackPower = (currWeapon - 1).SelectF(0.0f, BASE_POWER_BULLET, BASE_POWER_BOMB, BASE_POWER_MISSILE);
         if (StarLib.SelectF(1, false, GameManager.playerData?.GetWeapon(currWeapon))) attackPower *= 2.0f;
         Vector3 spawnPoint = bulletSpawn.position;
         Quaternion spawnRotation = bulletSpawn.rotation;
