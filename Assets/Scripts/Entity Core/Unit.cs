@@ -117,7 +117,7 @@ public abstract class Unit : Entity
     public virtual void DeathAnimation(bool destroySelf = true) 
     {
         //EntityDebug("DEAD");
-        Instantiate(explosionPrefab, transform.position, transform.rotation);
-        if(destroySelf) gameObject.SetActive(false);
+        Instantiate(explosionPrefab, transform.position, transform.rotation).transform.localScale = transform.localScale / 2.0f;
+        if (destroySelf) gameObject.SetActive(false);
     }
 }

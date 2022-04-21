@@ -3415,14 +3415,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558792593d3d8844285d5a7d208187c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
+  disableOnFinish: 0
+  explosionPrefab: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
   projectile: {fileID: 6310979295649777473, guid: 1d38e2f381cdf18b9b6306e9bc5b5c75, type: 3}
   trackingObject: {fileID: 7412254660993210722}
   trackingPitch: 1
   attackPower: 4
   health: 20
-  aggroDist: 15
   rateOfFire: 4
+  bulletSpeed: 5
+  bulletLifetime: 5
 --- !u!1 &6013830364432811203
 GameObject:
   m_ObjectHideFlags: 0

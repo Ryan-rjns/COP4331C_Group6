@@ -11,7 +11,7 @@ public class MenuButtons : MonoBehaviour
     public const int UPGRADE_1_PRICE = 200;
     public const int UPGRADE_2_PRICE = 300;
     // UI refs
-    private Text money;
+    private static Text money;
     private Text feedback;
     private Text difficulty;
     // Button list
@@ -57,10 +57,10 @@ public class MenuButtons : MonoBehaviour
     void Start() {
         if (GameManager.playerData == null)
         {
-            Debug.Log("Menu Start: No save file was found");
+            //Debug.Log("Menu Start: No save file was found");
             return;
         }
-        Debug.Log($"Menu Start: A save file is currently loaded: {GameManager.playerData}");
+        //Debug.Log($"Menu Start: A save file is currently loaded: {GameManager.playerData}");
         Button myButton = gameObject.GetComponent<Button>();
 
         // Level Select screen
@@ -250,14 +250,21 @@ public class MenuButtons : MonoBehaviour
             default:
                 break;
         }
+        Text buttonText = null;
+        Transform buttonTextTransform = b.transform.GetChild(0);
+        if(buttonTextTransform != null)  buttonText = buttonTextTransform.gameObject.GetComponent<Text>();
+
         // Update player's money
         money.text = "Money: " + GameManager.playerData.money.ToString();
         // Display feedback
         feedback = GameObject.Find("Feedback/Purchase").gameObject.GetComponent<Text>();
+        
         if(success == 1) {
             // Disable button
             b.interactable = false;
-            feedback.text = "Purchased " + b.name + "!";
+            string purchaseName = b.name;
+            if(buttonText != null) purchaseName = buttonText.text;
+            feedback.text = "Purchased " + purchaseName + "!";
         } else if(success == 2) {
             feedback.text = "You do not have that weapon!";
         } else {

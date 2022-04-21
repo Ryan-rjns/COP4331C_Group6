@@ -17,6 +17,9 @@ public class Player : Helicopter
     // Targeting max distance
     public const float TARGET_MAX_DIST = 75.0f;
 
+    public const float BASE_POWER_BULLET = 5.0f;
+    public const float BASE_POWER_BOMB = 20.0f;
+    public const float BASE_POWER_MISSILE = 15.0f;
 
     // Inspector items
     public GameObject weapon1Prefab;
@@ -39,18 +42,11 @@ public class Player : Helicopter
     float camSpeed = 2000.0f;
     // A scalar for how fast the camera zooms in and out
     float camZoomSpeed = 1000.0f;
-    // Count of remaining weapons
-    [HideInInspector]
-    public int weapon1;
-    [HideInInspector]
-    public int weapon2;
-    [HideInInspector]
-    public int weapon3;
     // Current weapon
     [HideInInspector]
     public int currWeapon = 1;
     // Weapon ammo (i=0 is ignored, since weapon1 has infinite ammo)
-    private float[] weaponAmmo = new float[3];
+    public float[] weaponAmmo = new float[3];
     // Cooldown until weapon can next fire (prevents spam)
     private float weaponCooldown = 0.0f;
 
@@ -90,7 +86,6 @@ public class Player : Helicopter
 
         // Register the camera
         cam = GetComponentInChildren<Camera>();
-        weapon1 = weapon2 = weapon3 = 5;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if(cam != null)
         {
@@ -182,11 +177,17 @@ public class Player : Helicopter
             // Cam 1: First Person: Fixed in place, follows mouse control
             else if (currentCam == 1)
             {
-                if(bulletSpawn != null) cam.transform.position = bulletSpawn.transform.position;
-                else cam.transform.position = transform.position + (transform.rotation * (CAM1_POS * meshScale));
-                Vector3 camEuler = new Vector3(camAngle.eulerAngles.x + 180.0f, camAngle.eulerAngles.y, camAngle.eulerAngles.z);
-                cam.transform.rotation = Quaternion.Euler(camEuler);
-                targets = visibleEnemies();
+                // This camera can glitch through the floor
+                // To pervent this, the player may not use the "Turret Cam" while on the ground
+                if(flying)
+                {
+                    if (bulletSpawn != null) cam.transform.position = bulletSpawn.transform.position;
+                    else cam.transform.position = transform.position + (transform.rotation * (CAM1_POS * meshScale));
+                    Vector3 camEuler = new Vector3(camAngle.eulerAngles.x + 180.0f, camAngle.eulerAngles.y, camAngle.eulerAngles.z);
+                    cam.transform.rotation = Quaternion.Euler(camEuler);
+                    targets = visibleEnemies();
+                }
+                else currentCam = 0;
             }
         }
         // Cam 2: Top-Down: Follow player's yaw, zoom in/out (DISABLED)
@@ -261,10 +262,17 @@ public class Player : Helicopter
         }
 
         // Check cooldown and ammo
-        if (weaponCooldown > 0) return;
+        if (weaponCooldown > 0)
+        {
+            //Debug.Log("Player weapon on cooldown");
+            return;
+        }
         if (currWeapon != 1)
         {
-            if (currWeapon < 0 || currWeapon >= weaponAmmo.Length || weaponAmmo[currWeapon - 1] <= 0) return;
+            if (currWeapon - 1 < 0 || currWeapon - 1 >= weaponAmmo.Length || weaponAmmo[currWeapon - 1] <= 0)
+            {
+                return;
+            }
             weaponAmmo[currWeapon - 1] -= 1;
         }
         if(currWeapon == 1 && StarLib.SelectF(2, false, GameManager.playerData?.GetWeapon(1))) weaponCooldown = 0.5f;
@@ -284,8 +292,7 @@ public class Player : Helicopter
         {
             spawnedProjectile.owner = this;
             spawnedProjectile.power = attackPower;
-            spawnedProjectile.explosion = explosionPrefab;
-            spawnedProjectile.SetProjectileVelocity(Vector3.forward * bulletSpeed);
+            spawnedProjectile.SetProjectileVelocity(spawnedProjectile.StartingVelocity.normalized * bulletSpeed);
         }
     }
 }

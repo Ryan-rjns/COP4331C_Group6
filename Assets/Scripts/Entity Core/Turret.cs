@@ -22,7 +22,7 @@ public class Turret : Unit
     protected override void Start()
     {
         base.Update();
-
+        team = Team.Get("Enemy");
         // Hard difficulty gives increased health, fire rate, and projectile speed
         if (GameManager.playerData != null && GameManager.playerData.difficultyHard)
         {
@@ -77,7 +77,6 @@ public class Turret : Unit
             {
                 spawnedProjectile.owner = this;
                 spawnedProjectile.power = attackPower;
-                spawnedProjectile.explosion = explosionPrefab;
                 spawnedProjectile.SetProjectileVelocity(Vector3.forward * bulletSpeed);
                 spawnedProjectile.Lifetime = bulletLifetime;
             }

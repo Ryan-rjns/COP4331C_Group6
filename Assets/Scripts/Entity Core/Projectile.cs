@@ -6,17 +6,18 @@ public class Projectile : Entity
 {
     [Tooltip("Relative to the projectile's rotation")]
     public Vector3 StartingVelocity = Vector3.forward;
+    public bool relativeVelocity = true;
     [Tooltip("How long (in seconds) it takes this projectile to reach its StartingVelocity")]
     public float StartingAccelTime = 1;
     public float ExplosionRadius = 0.5f;
     public float Lifetime = 5.0f;
+    public GameObject explosionPrefab;
 
     [HideInInspector]
     public Unit owner;
     [HideInInspector]
     public float power;
-    [HideInInspector]
-    public GameObject explosion;
+    
 
     private bool exploded = false;
 
@@ -30,8 +31,8 @@ public class Projectile : Entity
     public void SetProjectileVelocity(Vector3 v)
     {
         MaxSpeed = v.magnitude;
-        StartingVelocity = v;
-        TargetVelocity = transform.rotation * StartingVelocity;
+        TargetVelocity = StartingVelocity = v;
+        if (relativeVelocity) TargetVelocity = transform.rotation * TargetVelocity;
     }
 
     protected override void Update()
@@ -40,8 +41,7 @@ public class Projectile : Entity
         Lifetime -= Time.deltaTime;
         if (Lifetime <= 0) Collision(null);
 
-        
-        Debug.Log($"Projectile: Target: {TargetVelocity.magnitude}, Current: {Velocity.magnitude}, Max: {MaxSpeed}, AccelTime: {AccelTime}, Accel: {Acceleration}");
+        //Debug.Log($"Projectile: Target: {TargetVelocity.magnitude}, Current: {Velocity.magnitude}, Max: {MaxSpeed}, AccelTime: {AccelTime}, Accel: {Acceleration}");
     }
 
     public void OnTriggerEnter(Collider other)
@@ -53,7 +53,7 @@ public class Projectile : Entity
     {
         if (hitObject == null)
         {
-            // Colliding with null, typically due to Lifetime reaching 0
+            //Debug.Log($"Projectile {gameObject.name}: Colliding with null");
         }
         else
         {
@@ -61,11 +61,11 @@ public class Projectile : Entity
             if (hitUnit != null)
             {
                 if (hitUnit == owner) return;
-                // Colliding with other unit
+                //Debug.Log($"Projectile {gameObject.name}: Colliding with non-owner unit {hitUnit.gameObject.name}");
             }
             else
             {
-                // Colliding with other gameObject (like the ground)
+                //Debug.Log($"Projectile {gameObject.name}: Colliding with other gameObject {hitObject.name}");
             }
         }
 
@@ -73,7 +73,11 @@ public class Projectile : Entity
         if (exploded) return;
         exploded = true;
 
-        if (explosion != null) Instantiate(explosion, transform.position, transform.rotation);
+        ExplosionRadius *= (transform.localScale.x + transform.localScale.y + transform.localScale.z) / 3.0f;
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, transform.rotation).transform.localScale = Vector3.one * ExplosionRadius / 2.0f;
+        }
 
         // Damage any units in the explosion radius
         // (The Unit class will prevent friendly fire)

@@ -64,12 +64,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableOnFinish: 0
   StartingVelocity: {x: 0, y: 0, z: 5}
+  relativeVelocity: 1
   StartingAccelTime: 0.2
   ExplosionRadius: 0.5
   Lifetime: 5
+  explosionPrefab: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
   owner: {fileID: 0}
   power: 0
-  explosion: {fileID: 0}
 --- !u!65 &971638142510769119
 BoxCollider:
   m_ObjectHideFlags: 0

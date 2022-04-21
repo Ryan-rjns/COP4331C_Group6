@@ -58,9 +58,9 @@ public class HUD : MonoBehaviour
             // Update Weapons UI
             if (GameManager.playerData != null)
             {
-                if (GameManager.playerData.weapon1[0]) weapons[0].text = currPlayer.weapon1.ToString();
-                if (GameManager.playerData.weapon2[0]) weapons[1].text = currPlayer.weapon2.ToString();
-                if (GameManager.playerData.weapon3[0]) weapons[2].text = currPlayer.weapon3.ToString();
+                if (GameManager.playerData.weapon1[0]) weapons[0].text = "-";
+                if (GameManager.playerData.weapon2[0]) weapons[1].text = currPlayer.weaponAmmo[1].ToString();
+                if (GameManager.playerData.weapon3[0]) weapons[2].text = currPlayer.weaponAmmo[2].ToString();
             }
             // Display weapon highlight
             if(currPlayer.currWeapon != 0) {
