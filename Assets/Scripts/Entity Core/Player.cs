@@ -72,11 +72,11 @@ public class Player : Helicopter
         {
             // Base ammo for each weapon
             weaponAmmo[0] = 99999;
-            weaponAmmo[1] = 5;
+            weaponAmmo[1] = 4;
             weaponAmmo[2] = 3;
             // Improved ammo for each weapon
-            if(StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(2))) weaponAmmo[1] *= 2;
-            if (StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(3))) weaponAmmo[2] *= 2;
+            if(StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(2))) weaponAmmo[1] += 5;
+            if (StarLib.SelectF(2, false, GameManager.playerData.GetWeapon(3))) weaponAmmo[2] += 4;
         }
         
         // Initialize teams
