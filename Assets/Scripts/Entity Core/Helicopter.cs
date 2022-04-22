@@ -56,11 +56,13 @@ public abstract class Helicopter : Unit
         grounded = IsGrounded() ?? false;
         // Determine if the helicopter is flying:
         flying = !IsGrounded(GROUND_DISTANCE) ?? false;
+        // You physically cannot ever go above the height limit
+        if (transform.position.y > heightLimit) transform.position = new Vector3(transform.position.x, heightLimit, transform.position.z);
 
         // Move the helicopter towards the input directions (magnitude is automatically clamped to 1)
         // Target velocity is relative to the helicopter's yaw!
         // (If the helicopter turns right, "forwards" is now to the right)
-        TargetVelocity = Quaternion.AngleAxis(transform.rotation.eulerAngles.y,Vector3.up) * InputVelocity;
+        TargetVelocity = Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * InputVelocity;
 
 
         // >>> Visual Animations:
@@ -97,7 +99,7 @@ public abstract class Helicopter : Unit
     {
         // When fully hgrounded, the helicopter can only fly up
         if (grounded && speed <= 0) speed = 0;
-        if (transform.position.y >= heightLimit && speed >= 0) speed = -1;
+        if (transform.position.y >= heightLimit && speed >= 0) speed = 0;
         else if (!exact) speed = ScaleVelocity(speed);
         InputVelocity.y = speed;
     }
